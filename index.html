@@ -75,3 +75,59 @@ setTimeout(()=>h.remove(),6000);
 
 </body>
 </html>
+<div style="text-align:center;margin-top:40px;">
+    <button id="btnAffet" onclick="affet()">
+        💖 Beni Affeder misin?
+    </button>
+
+    <p id="cevap" style="font-size:24px;color:#ff0066;font-weight:bold;margin-top:20px;"></p>
+</div>
+
+<style>
+#btnAffet{
+    background:#ff2d75;
+    color:white;
+    border:none;
+    padding:15px 35px;
+    font-size:22px;
+    border-radius:40px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+#btnAffet:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 20px #ff4d88;
+}
+</style>
+
+<script>
+function affet(){
+    document.getElementById("cevap").innerHTML=
+    "🥹❤️ Teşekkür ederim Esram... Seni bir daha üzmemek için elimden geleni yapacağım. Seni çok seviyorum. ❤️";
+
+    for(let i=0;i<80;i++){
+        let h=document.createElement("div");
+        h.innerHTML="💖";
+        h.style.position="fixed";
+        h.style.left=Math.random()*100+"vw";
+        h.style.top="-20px";
+        h.style.fontSize=(20+Math.random()*20)+"px";
+        h.style.animation="dus "+(3+Math.random()*2)+"s linear forwards";
+        document.body.appendChild(h);
+
+        setTimeout(()=>{
+            h.remove();
+        },5000);
+    }
+}
+</script>
+
+<style>
+@keyframes dus{
+    to{
+        transform:translateY(110vh) rotate(360deg);
+        opacity:0;
+    }
+}
+</style>
