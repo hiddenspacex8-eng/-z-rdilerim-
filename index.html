@@ -2,33 +2,35 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sana Bir Sürpriz 🤍</title>
 <style>
 body {
     background: #ffdde1;
     font-family: Arial, sans-serif;
     text-align: center;
-    overflow: hidden;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
+    padding-bottom: 50px;
 }
 h1 {
-    margin-top: 50px;
-    font-size: 50px;
+    margin-top: 30px;
+    font-size: 36px;
     color: red;
 }
 p {
-    font-size: 28px;
+    font-size: 20px;
     color: #444;
+    padding: 0 15px;
 }
 .neon {
     color: white;
-    font-size: 50px;
+    font-size: 36px;
     text-shadow:
     0 0 5px #ff00ff,
     0 0 10px #ff00ff,
-    0 0 20px #ff00ff,
-    0 0 40px #ff00ff;
+    0 0 20px #ff00ff;
 }
 .corner-heart {
     position: fixed;
@@ -44,9 +46,7 @@ p {
 .bottom-right { bottom: 15px; right: 15px; }
 
 @keyframes pulse {
-    50% {
-        transform: scale(1.3);
-    }
+    50% { transform: scale(1.3); }
 }
 
 #btnAffet {
@@ -62,6 +62,66 @@ p {
 #btnAffet:hover {
     transform: scale(1.08);
     box-shadow: 0 0 20px #ff4d88;
+}
+
+/* FOTOĞRAF GALERİSİ TASARIMI */
+.gallery-wrapper {
+    margin: 40px auto;
+    max-width: 90%;
+    width: 350px;
+}
+.gallery-container {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    overflow: hidden;
+    border: 5px solid #fff;
+}
+.gallery-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gallery-slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+.gallery-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+.gallery-controls {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff2d75;
+}
+.nav-btn {
+    background: #ff2d75;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.nav-btn:hover {
+    background: #ff4d88;
 }
 </style>
 </head>
@@ -80,6 +140,28 @@ p {
 Her gün seni sevmek benim için en güzel mutluluk.<br><br>
 Sonsuza kadar birlikte olalım. 💍🤍
 </p>
+
+<!-- FOTOĞRAF GALERİSİ BÖLÜMÜ -->
+<div class="gallery-wrapper">
+  <div class="gallery-container">
+    <div class="gallery-slide active"><img src="IMG_20260526_213453.jpg" alt="Anı 1"></div>
+    <div class="gallery-slide"><img src="IMG_20260619_115607.jpg" alt="Anı 2"></div>
+    <div class="gallery-slide"><img src="IMG_20260708_162842_849.jpg" alt="Anı 3"></div>
+    <div class="gallery-slide"><img src="IMG_20260716_223451_661.jpg" alt="Anı 4"></div>
+    <div class="gallery-slide"><img src="IMG_20260716_223542_995.jpg" alt="Anı 5"></div>
+    <div class="gallery-slide"><img src="Screenshot_2026-05-04-09-19-12-680_com.instagram.android.jpg" alt="Anı 6"></div>
+    <div class="gallery-slide"><img src="Screenshot_2026-06-03-21-30-58-182_com.instagram.android.jpg" alt="Anı 7"></div>
+    <div class="gallery-slide"><img src="hailuo_1784235468.png" alt="Anı 8"></div>
+    <div class="gallery-slide"><img src="a75cae655d5b5773542b0dda3ed11ef5.jpg" alt="Anı 9"></div>
+    <div class="gallery-slide"><img src="5d33857d9c10b4cdfc8c1417b7ccff31.jpg" alt="Anı 10"></div>
+  </div>
+
+  <div class="gallery-controls">
+    <button id="prevBtn" class="nav-btn">◀ Önceki</button>
+    <span id="photoCounter">1 / 10</span>
+    <button id="nextBtn" class="nav-btn">Sonraki ▶</button>
+  </div>
+</div>
 
 <div style="text-align:center; margin-top:40px;">
     <button id="btnAffet" onclick="affet()">
@@ -111,36 +193,39 @@ setInterval(function() {
         gun + " Gün " + saat + " Saat " + dakika + " Dakika " + saniye + " Saniye";
 }, 1000);
 
-// Buton Tıklama Kodu (Aşağı akan kalpler temizlendi)
 function affet(){
     document.getElementById("cevap").innerHTML =
     "🥹💗 🥺💗 Teşekkür ederim, Sevgilim... Seni bir daha üzmemek için elimden geleni yapacağım.. 💗";
 }
+
+// GALERİ ÇALIŞMA KODU
+const slides = document.querySelectorAll('.gallery-slide');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const counter = document.getElementById('photoCounter');
+let currentSlide = 0;
+
+function updateGallery() {
+    slides.forEach((slide, index) => {
+        if(index === currentSlide) {
+            slide.classList.add('active');
+        } else {
+            slide.classList.remove('active');
+        }
+    });
+    counter.textContent = (currentSlide + 1) + " / " + slides.length;
+}
+
+nextBtn.addEventListener('click', () => {
+    currentSlide = (currentSlide + 1) % slides.length;
+    updateGallery();
+});
+
+prevBtn.addEventListener('click', () => {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    updateGallery();
+});
 </script>
 
 </body>
 </html>
-<div class="gallery-wrapper">
-  <!-- Fotoğraf Çerçevesi -->
-  <div class="gallery-container">
-    <!-- 10 adet fotoğrafınız (İlk fotoğraf hariç diğerlerinde 'active' sınıfı yok) -->
-    <div class="gallery-slide active"><img src="foto1.jpg" alt="Anı 1"></div>
-    <div class="gallery-slide"><img src="foto2.jpg" alt="Anı 2"></div>
-    <div class="gallery-slide"><img src="foto3.jpg" alt="Anı 3"></div>
-    <div class="gallery-slide"><img src="foto4.jpg" alt="Anı 4"></div>
-    <div class="gallery-slide"><img src="foto5.jpg" alt="Anı 5"></div>
-    <div class="gallery-slide"><img src="foto6.jpg" alt="Anı 6"></div>
-    <div class="gallery-slide"><img src="foto7.jpg" alt="Anı 7"></div>
-    <div class="gallery-slide"><img src="foto8.jpg" alt="Anı 8"></div>
-    <div class="gallery-slide"><img src="foto9.jpg" alt="Anı 9"></div>
-    <div class="gallery-slide"><img src="foto10.jpg" alt="Anı 10"></div>
-  </div>
-
-  <!-- Kontrol Butonları -->
-  <div class="gallery-controls">
-    <button id="prevBtn" class="nav-btn">◀ Önceki</button>
-    <span id="photoCounter">1 / 10</span>
-    <button id="nextBtn" class="nav-btn">Sonraki ▶</button>
-  </div>
-</div>
-
