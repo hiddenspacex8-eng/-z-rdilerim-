@@ -1,0 +1,77 @@
+<div class="sayac-kutusu" style="text-align: center; margin: 20px; font-family: sans-serif;">
+    <h2 style="color: #ff4d6d;">Birlikte Geçen Zamanımız:</h2>
+    <div id="ask-sayaci" style="font-size: 24px; font-weight: bold; color: #333;">Hesaplanıyor...</div>
+</div>
+
+<script>
+const baslangicTarihi = new Date("2026-04-28T00:00:00").getTime();
+
+setInterval(function() {
+    const simdi = new Date().getTime();
+    const fark = simdi - baslangicTarihi;
+
+    const gun = Math.floor(fark / (1000 * 60 * 60 * 24));
+    const saat = Math.floor((fark % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const dakika = Math.floor((fark % (1000 * 60 * 60)) / (1000 * 60));
+    const saniye = Math.floor((fark % (1000 * 60)) / 1000);
+
+    document.getElementById("ask-sayaci").innerHTML = 
+        gun + " Gün " + saat + " Saat " + dakika + " Dakika " + saniye + " Saniye";
+}, 1000);
+</script>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Sana Bir Sürpriz 🤍</title>
+<style>
+body{
+background:#ffdde1;
+font-family:Arial;
+text-align:center;
+overflow:hidden;
+}
+h1{
+margin-top:80px;
+font-size:50px;
+color:red;
+}
+p{
+font-size:28px;
+color:#444;
+}
+.heart{
+position:fixed;
+font-size:30px;
+animation:fall 6s linear infinite;
+}
+@keyframes fall{
+0%{transform:translateY(-100px);}
+100%{transform:translateY(100vh);}
+}
+</style>
+</head>
+<body>
+
+<h1>🤍 Seni Çok Seviyorum 🤍</h1>
+
+<p>
+İyi ki hayatımdasın...<br><br>
+Her gün seni sevmek benim için en güzel mutluluk.<br><br>
+Sonsuza kadar birlikte olalım. 💍🤍
+</p>
+
+<script>
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="🤍";
+h.style.left=Math.random()*100+"%";
+document.body.appendChild(h);
+
+setTimeout(()=>h.remove(),6000);
+},300);
+</script>
+
+</body>
+</html>
