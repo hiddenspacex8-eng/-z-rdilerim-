@@ -79,7 +79,25 @@ setTimeout(()=>h.remove(),6000);
     <button id="btnAffet" onclick="affet()">
         💖 Beni Affeder misin?
     </button>
+<p id="cevap"></p>
 
+<script>
+function affet(){
+
+let mesajlar = [
+"Üzgünüm aşkım ❤️ Seni kırmak hiç istemezdim. Kalbini yeniden kazanmak istiyorum.",
+"Belki hata yaptım ama seni kaybetmek istemiyorum. Sen benim için çok değerlisin 💖",
+"Affet beni Esram 🌹 Senin üzülmeni görmek istemiyorum. Gülüşün benim için çok özel.",
+"Kalbini kırdıysam özür dilerim ❤️ Bundan sonra seni daha iyi anlamaya çalışacağım.",
+"Aramızdaki güzel şeylerin küçük bir kırgınlık yüzünden bitmesini istemiyorum 💕"
+];
+
+let rastgele = Math.floor(Math.random() * mesajlar.length);
+
+document.getElementById("cevap").innerHTML = mesajlar[rastgele];
+
+}
+</script>
     <p id="cevap" style="font-size:24px;color:#ff0066;font-weight:bold;margin-top:20px;"></p>
 </div>
 
@@ -131,3 +149,26 @@ function affet(){
     }
 }
 </style>
+<script>
+const hearts = ["❤️","💙","💜","💚","💛","🧡","💖","💕","💗","💓","💘"];
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+
+    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (1 + Math.random() * 3) + "s";
+    heart.style.fontSize = (20 + Math.random() * 45) + "px";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 5000);
+}
+
+// Daha sık kalp oluşturur
+setInterval(createHeart, 50);
+</script>
