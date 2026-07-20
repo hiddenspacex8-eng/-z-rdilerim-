@@ -32,6 +32,25 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 .music-btn { background: #ff2d75; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(255, 45, 117, 0.3);}
 .music-btn:hover { background: #ff4d88; transform: scale(1.05);}
 
+/* Sayfa Değiştirme Buton Stili */
+.sayfa-degistir-btn {
+    display: inline-block;
+    margin: 40px auto 20px auto;
+    padding: 15px 30px;
+    background: #ff2d75;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(255, 45, 117, 0.4);
+    transition: 0.3s;
+}
+.sayfa-degistir-btn:hover {
+    background: #ff4d88;
+    transform: scale(1.05);
+}
+
 /* Kalp Uçma Animasyon Stili */
 .floating-heart { position: fixed; font-size: 28px; pointer-events: none; animation: floatUp 2s ease-out forwards; z-index: 99999;}
 @keyframes floatUp {
@@ -93,7 +112,26 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
     <button id="play-pause-btn" class="music-btn" onclick="toggleMusic()">▶</button>
 </div>
 
+<br>
+<!-- Diğer Sayfaya Geçiş Sağlayan Buton -->
+<a href="fotograflar.html" class="sayfa-degistir-btn">Tüm Fotoğraflarımızı Gör ❤️</a>
+
 <script>
+// Aşk sayacı için tarih fonksiyonu (Şifre tarihine göre ayarlandı)
+function askSayaciGuncelle() {
+    const baslangicTarihi = new Date("2026-04-28T00:00:00"); 
+    const simdi = new Date();
+    const fark = simdi - baslangicTarihi;
+
+    const gun = Math.floor(fark / (1000 * 60 * 60 * 24));
+    const saat = Math.floor((fark % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const dakika = Math.floor((fark % (1000 * 60 * 60)) / (1000 * 60));
+    const saniye = Math.floor((fark % (1000 * 60)) / 1000);
+
+    document.getElementById("ask-sayaci").innerHTML = `${gun} Gün, ${saat} Saat, ${dakika} Dakika, ${saniye} Saniye`;
+}
+setInterval(askSayaciGuncelle, 1000);
+
 function sifreyiKontrolEt() {
     var girilen = document.getElementById("sifreInput").value.trim();
     var dogru = "28.04.2026";
@@ -113,16 +151,13 @@ function sifreyiKontrolEt() {
     }
 }
 
-// Pembe Kalp Patlatma Efekti Fonksiyonu
 function createHearts(event) {
-    // Sadece 💗 emojisinin fırlatılması sağlandı
     for (let i = 0; i < 6; i++) {
         setTimeout(() => {
             const heart = document.createElement('div');
             heart.classList.add('floating-heart');
             heart.innerText = '💗';
             
-            // Tıklanan butonun etrafından fırlama yayılımı
             const randomX = event.clientX + (Math.random() * 60 - 30);
             const randomY = event.clientY + (Math.random() * 40 - 20);
             
@@ -150,35 +185,19 @@ function toggleMusic() {
     }
 }
 
-document.getElementById("sifreInput").addEventListener("keypress", function(e) {
-    if (e.key === "Enter") { e.preventDefault(); sifreyiKontrolEt(); }
-});
+// Galeri Slayt Sistemi Kodları
+const slides = document.querySelectorAll('.gallery-slide');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const photoCounter = document.getElementById('photoCounter');
+let currentSlide = 0;
 
-var baslangic = new Date("2026-04-28T00:00:00").getTime();
-setInterval(function() {
-    var simdi = new Date().getTime();
-    var fark = simdi - baslangic;
-    var g = Math.floor(fark / (1000 * 60 * 60 * 24));
-    var s = Math.floor((fark % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var d = Math.floor((fark % (1000 * 60 * 60)) / (1000 * 60));
-    var sn = Math.floor((fark % (1000 * 60)) / 1000);
-    var el = document.getElementById("ask-sayaci");
-    if(el) { el.innerHTML = g + " Gün " + s + " Saat " + d + " Dakika " + sn + " Saniye"; }
-}, 1000);
-
-var slides = document.querySelectorAll('.gallery-slide');
-var prevBtn = document.getElementById('prevBtn');
-var nextBtn = document.getElementById('nextBtn');
-var counter = document.getElementById('photoCounter');
-var currentSlide = 0;
-function updateGallery() {
-    slides.forEach(function(slide, idx) {
-        if(idx === currentSlide) { slide.classList.add('active'); } else { slide.classList.remove('active'); }
-    });
-    if(counter) { counter.textContent = (currentSlide + 1) + " / " + slides.length; }
+function showSlide(index) {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (index + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+    photoCounter.innerText = `${currentSlide + 1} / ${slides.length}`;
 }
-if(nextBtn) { nextBtn.addEventListener('click', function() { currentSlide = (currentSlide + 1) % slides.length; updateGallery(); }); }
-if(prevBtn) { prevBtn.addEventListener('click', function() { currentSlide = (currentSlide - 1 + slides.length) % slides.length; updateGallery(); }); }
-</script>
-</body>
-</html>
+
+prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
