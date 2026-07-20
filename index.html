@@ -32,25 +32,6 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 .music-btn { background: #ff2d75; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(255, 45, 117, 0.3);}
 .music-btn:hover { background: #ff4d88; transform: scale(1.05);}
 
-/* Sayfa Değiştirme Buton Stili */
-.sayfa-degistir-btn {
-    display: inline-block;
-    margin: 40px auto 20px auto;
-    padding: 15px 30px;
-    background: #ff2d75;
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(255, 45, 117, 0.4);
-    transition: 0.3s;
-}
-.sayfa-degistir-btn:hover {
-    background: #ff4d88;
-    transform: scale(1.05);
-}
-
 /* Kalp Uçma Animasyon Stili */
 .floating-heart { position: fixed; font-size: 28px; pointer-events: none; animation: floatUp 2s ease-out forwards; z-index: 99999;}
 @keyframes floatUp {
@@ -112,26 +93,7 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
     <button id="play-pause-btn" class="music-btn" onclick="toggleMusic()">▶</button>
 </div>
 
-<br>
-<!-- Diğer Sayfaya Geçiş Sağlayan Buton -->
-<a href="fotograflar.html" class="sayfa-degistir-btn">Tüm Fotoğraflarımızı Gör ❤️</a>
-
 <script>
-// Aşk sayacı için tarih fonksiyonu (Şifre tarihine göre ayarlandı)
-function askSayaciGuncelle() {
-    const baslangicTarihi = new Date("2026-04-28T00:00:00"); 
-    const simdi = new Date();
-    const fark = simdi - baslangicTarihi;
-
-    const gun = Math.floor(fark / (1000 * 60 * 60 * 24));
-    const saat = Math.floor((fark % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const dakika = Math.floor((fark % (1000 * 60 * 60)) / (1000 * 60));
-    const saniye = Math.floor((fark % (1000 * 60)) / 1000);
-
-    document.getElementById("ask-sayaci").innerHTML = `${gun} Gün, ${saat} Saat, ${dakika} Dakika, ${saniye} Saniye`;
-}
-setInterval(askSayaciGuncelle, 1000);
-
 function sifreyiKontrolEt() {
     var girilen = document.getElementById("sifreInput").value.trim();
     var dogru = "28.04.2026";
@@ -151,13 +113,16 @@ function sifreyiKontrolEt() {
     }
 }
 
+// Pembe Kalp Patlatma Efekti Fonksiyonu
 function createHearts(event) {
+    // Sadece 💗 emojisinin fırlatılması sağlandı
     for (let i = 0; i < 6; i++) {
         setTimeout(() => {
             const heart = document.createElement('div');
             heart.classList.add('floating-heart');
             heart.innerText = '💗';
             
+            // Tıklanan butonun etrafından fırlama yayılımı
             const randomX = event.clientX + (Math.random() * 60 - 30);
             const randomY = event.clientY + (Math.random() * 40 - 20);
             
@@ -181,23 +146,4 @@ function toggleMusic() {
         btn.innerHTML = "⏸";
     } else {
         audio.pause();
-        btn.innerHTML = "▶";
-    }
-}
-
-// Galeri Slayt Sistemi Kodları
-const slides = document.querySelectorAll('.gallery-slide');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const photoCounter = document.getElementById('photoCounter');
-let currentSlide = 0;
-
-function showSlide(index) {
-    slides[currentSlide].classList.remove('active');
-    currentSlide = (index + slides.length) % slides.length;
-    slides[currentSlide].classList.add('active');
-    photoCounter.innerText = `${currentSlide + 1} / ${slides.length}`;
-}
-
-prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
-nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+        btn.inn
