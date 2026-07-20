@@ -30,15 +30,13 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 .music-btn { background: #ff2d75; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(255, 45, 117, 0.3);}
 .music-btn:hover { background: #ff4d88; transform: scale(1.05);}
 </style>
-<!-- YouTube API Script Bileşeni -->
-<script src="https://youtube.com"></script>
 </head>
 <body>
 
-<!-- GİZLİ YOUTUBE OYNATICI (Eller Üzer Şarkısı İçin) -->
-<div style="position: absolute; left: -9999px; top: -9999px;">
-    <div id="yt-player"></div>
-</div>
+<!-- DOĞRUDAN SİTEDEN ÇALIŞACAK MÜZİK DOSYASI -->
+<audio id="real-audio" loop preload="auto">
+    <source src="https://git.fm" type="audio/mpeg">
+</audio>
 
 <div id="pencere-kilidi">
     <div class="sifre-kutusu">
@@ -85,39 +83,20 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 </div>
 
 <script>
-var player;
-var playerHazir = false;
-
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('yt-player', {
-        height: '0',
-        width: '0',
-        videoId: '7Y8F-vN4g8Y', // "Eller Üzer" Resmi YouTube ID'si
-        playerVars: {
-            'autoplay': 0,
-            'loop': 1,
-            'playlist': '7Y8F-vN4g8Y'
-        },
-        events: {
-            'onReady': onPlayerReady
-        }
-    });
-}
-
-function onPlayerReady(event) {
-    playerHazir = true;
-}
-
 function sifreyiKontrolEt() {
     var girilen = document.getElementById("sifreInput").value.trim();
     var dogru = "28.04.2026";
     if (girilen === dogru) {
         document.getElementById("pencere-kilidi").style.display = "none";
         
-        // Şifre girilince müzik çalmayı dener
-        if (playerHazir && player) {
-            player.playVideo();
-            document.getElementById("play-pause-btn").innerHTML = "⏸";
+        // Şifre onaylandığı an şarkıyı başlatmayı tetikler
+        var audio = document.getElementById("real-audio");
+        if (audio) {
+            audio.play().then(function() {
+                document.getElementById("play-pause-btn").innerHTML = "⏸";
+            }).catch(function(e) {
+                console.log("Tarayıcı engeli tetiklendi, butona basılması gerekiyor.");
+            });
         }
     } else {
         document.getElementById("hata-mesaji").style.display = "block";
@@ -125,17 +104,14 @@ function sifreyiKontrolEt() {
 }
 
 function toggleMusic() {
-    if (!playerHazir || !player) return;
-    
-    var state = player.getPlayerState();
+    var audio = document.getElementById("real-audio");
     var btn = document.getElementById("play-pause-btn");
-    
-    if (state === YT.PlayerState.PLAYING) {
-        player.pauseVideo();
-        btn.innerHTML = "▶";
-    } else {
-        player.playVideo();
+    if (audio.paused) {
+        audio.play();
         btn.innerHTML = "⏸";
+    } else {
+        audio.pause();
+        btn.innerHTML = "▶";
     }
 }
 
