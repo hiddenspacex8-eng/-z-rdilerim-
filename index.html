@@ -13,7 +13,7 @@
 .sifre-kutusu button.giris-btn { background: #ff2d75; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 25px; cursor: pointer; width: 90%; transition: 0.3s;}
 .sifre-kutusu button.giris-btn:hover { background: #ff4d88; transform: scale(1.03);}
 #hata-mesaji { color: red; margin-top: 10px; font-weight: bold; display: none;}
-body { background: #ffdde1; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; min-height: 100vh; padding-bottom: 110px;} /* Oynatıcı kapatmasın diye alt boşluk artırıldı */
+body { background: #ffdde1; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; min-height: 100vh; padding-bottom: 140px;} /* Boşluk artırıldı */
 h1 { margin-top: 30px; font-size: 36px; color: red;}
 p { font-size: 20px; color: #444; padding: 0 15px;}
 .neon { color: white; font-size: 36px; text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;}
@@ -25,6 +25,8 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 .gallery-controls { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold; color: #ff2d75;}
 .nav-btn { background: #ff2d75; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 16px;}
 .nav-btn:hover { background: #ff4d88;}
+.music-player-container { margin: 30px auto; background: white; padding: 15px 25px; border-radius: 30px; box-shadow: 0 8px 20px rgba(255, 45, 117, 0.15); display: inline-flex; align-items: center; gap: 15px; border: 2px solid #ffb3c6;}
+.music-title { font-size: 16px; font-weight: bold; color: #ff2d75;}
 </style>
 </head>
 <body>
@@ -68,7 +70,11 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
   </div>
 </div>
 
-<!-- SAYFA ALTINA SABİTLENMİŞ KOYU TEMA SPOTIFY OYNATICI -->
+<!-- ŞARKIMIZ BAŞLIĞI VE ALTTA SABİT KOYU SPOTIFY OYNATICISI -->
+<div class="music-player-container">
+    <span class="music-title">Aşağıdaki Oynatıcıdan Şarkımızı Başlatabilirsin 🎶👇</span>
+</div>
+
 <div style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 9999; background-color: #282828; box-shadow: 0 -5px 15px rgba(0,0,0,0.5); line-height: 0;">
     <iframe src="https://spotify.com" 
             width="100%" 
