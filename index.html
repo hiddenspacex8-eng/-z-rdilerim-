@@ -33,9 +33,9 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 </head>
 <body>
 
-<!-- DOĞRUDAN SİTEDEN ÇALIŞACAK MÜZİK DOSYASI -->
+<!-- GITHUB KLAZÖRÜNDEKİ M4A DOSYASINI OKUYAN GÜVENLİ SES ETİKETİ -->
 <audio id="real-audio" loop preload="auto">
-    <source src="https://git.fm" type="audio/mpeg">
+    <source src="sarkimiz.m4a" type="audio/mp4">
 </audio>
 
 <div id="pencere-kilidi">
@@ -89,13 +89,13 @@ function sifreyiKontrolEt() {
     if (girilen === dogru) {
         document.getElementById("pencere-kilidi").style.display = "none";
         
-        // Şifre onaylandığı an şarkıyı başlatmayı tetikler
+        // Şifre girilince direkt çalmayı tetikler
         var audio = document.getElementById("real-audio");
         if (audio) {
             audio.play().then(function() {
                 document.getElementById("play-pause-btn").innerHTML = "⏸";
             }).catch(function(e) {
-                console.log("Tarayıcı engeli tetiklendi, butona basılması gerekiyor.");
+                console.log("Tarayıcı politikası gereği butona basılması bekleniyor.");
             });
         }
     } else {
