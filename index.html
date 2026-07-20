@@ -13,7 +13,7 @@
 .sifre-kutusu button.giris-btn { background: #ff2d75; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 25px; cursor: pointer; width: 90%; transition: 0.3s;}
 .sifre-kutusu button.giris-btn:hover { background: #ff4d88; transform: scale(1.03);}
 #hata-mesaji { color: red; margin-top: 10px; font-weight: bold; display: none;}
-body { background: #ffdde1; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; min-height: 100vh; padding-bottom: 140px;} /* Boşluk artırıldı */
+body { background: #ffdde1; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; min-height: 100vh; padding-bottom: 40px;}
 h1 { margin-top: 30px; font-size: 36px; color: red;}
 p { font-size: 20px; color: #444; padding: 0 15px;}
 .neon { color: white; font-size: 36px; text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;}
@@ -27,9 +27,18 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 .nav-btn:hover { background: #ff4d88;}
 .music-player-container { margin: 30px auto; background: white; padding: 15px 25px; border-radius: 30px; box-shadow: 0 8px 20px rgba(255, 45, 117, 0.15); display: inline-flex; align-items: center; gap: 15px; border: 2px solid #ffb3c6;}
 .music-title { font-size: 16px; font-weight: bold; color: #ff2d75;}
+.music-btn { background: #ff2d75; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(255, 45, 117, 0.3);}
+.music-btn:hover { background: #ff4d88; transform: scale(1.05);}
 </style>
+<!-- YouTube API Script Bileşeni -->
+<script src="https://youtube.com"></script>
 </head>
 <body>
+
+<!-- GİZLİ YOUTUBE OYNATICI (Eller Üzer Şarkısı İçin) -->
+<div style="position: absolute; left: -9999px; top: -9999px;">
+    <div id="yt-player"></div>
+</div>
 
 <div id="pencere-kilidi">
     <div class="sifre-kutusu">
@@ -70,30 +79,63 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
   </div>
 </div>
 
-<!-- ŞARKIMIZ BAŞLIĞI VE ALTTA SABİT KOYU SPOTIFY OYNATICISI -->
 <div class="music-player-container">
-    <span class="music-title">Aşağıdaki Oynatıcıdan Şarkımızı Başlatabilirsin 🎶👇</span>
-</div>
-
-<div style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 9999; background-color: #282828; box-shadow: 0 -5px 15px rgba(0,0,0,0.5); line-height: 0;">
-    <iframe src="https://spotify.com" 
-            width="100%" 
-            height="80" 
-            frameBorder="0" 
-            allowfullscreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy">
-    </iframe>
+    <span class="music-title">Şarkımız 🎶</span>
+    <button id="play-pause-btn" class="music-btn" onclick="toggleMusic()">▶</button>
 </div>
 
 <script>
+var player;
+var playerHazir = false;
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('yt-player', {
+        height: '0',
+        width: '0',
+        videoId: '7Y8F-vN4g8Y', // "Eller Üzer" Resmi YouTube ID'si
+        playerVars: {
+            'autoplay': 0,
+            'loop': 1,
+            'playlist': '7Y8F-vN4g8Y'
+        },
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    playerHazir = true;
+}
+
 function sifreyiKontrolEt() {
     var girilen = document.getElementById("sifreInput").value.trim();
     var dogru = "28.04.2026";
     if (girilen === dogru) {
         document.getElementById("pencere-kilidi").style.display = "none";
+        
+        // Şifre girilince müzik çalmayı dener
+        if (playerHazir && player) {
+            player.playVideo();
+            document.getElementById("play-pause-btn").innerHTML = "⏸";
+        }
     } else {
         document.getElementById("hata-mesaji").style.display = "block";
+    }
+}
+
+function toggleMusic() {
+    if (!playerHazir || !player) return;
+    
+    var state = player.getPlayerState();
+    var btn = document.getElementById("play-pause-btn");
+    
+    if (state === YT.PlayerState.PLAYING) {
+        player.pauseVideo();
+        btn.innerHTML = "▶";
+    } else {
+        player.playVideo();
+        btn.innerHTML = "⏸";
     }
 }
 
