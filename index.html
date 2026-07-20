@@ -29,6 +29,11 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 </head>
 <body>
 
+<!-- MÜZİK ETİKETİ (Döngü halinde sürekli çalması için loop eklendi) -->
+<audio id="background-music" loop>
+    <source src="https://soundhelix.com" type="audio/mp3">
+</audio>
+
 <div id="pencere-kilidi">
     <div class="sifre-kutusu">
         <h2>🤍 Bu Site Sevgilime Özeldir 🤍</h2>
@@ -74,6 +79,14 @@ function sifreyiKontrolEt() {
     var dogru = "28.04.2026";
     if (girilen === dogru) {
         document.getElementById("pencere-kilidi").style.display = "none";
+        
+        // Şifre onaylandığı an müziği başlatır
+        var music = document.getElementById("background-music");
+        if (music) {
+            music.play().catch(function(error) {
+                console.log("Müzik otomatik başlatılamadı, tarayıcı engelledi:", error);
+            });
+        }
     } else {
         document.getElementById("hata-mesaji").style.display = "block";
     }
