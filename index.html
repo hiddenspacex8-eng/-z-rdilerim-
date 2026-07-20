@@ -34,21 +34,35 @@
     margin-bottom: 20px;
     font-size: 22px;
 }
+.sifre-input-container {
+    position: relative;
+    width: 90%;
+    margin: 0 auto 15px auto;
+}
 .sifre-kutusu input {
-    width: 80%;
-    padding: 12px;
+    width: 100%;
+    padding: 12px 40px 12px 12px;
     font-size: 18px;
     border: 2px solid #ffdde1;
     border-radius: 10px;
     outline: none;
     text-align: center;
-    margin-bottom: 15px;
+    box-sizing: border-box;
     transition: 0.3s;
 }
 .sifre-kutusu input:focus {
     border-color: #ff2d75;
 }
-.sifre-kutusu button {
+.sifre-goster-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    user-select: none;
+}
+.sifre-kutusu button.giris-btn {
     background: #ff2d75;
     color: white;
     border: none;
@@ -59,7 +73,7 @@
     width: 90%;
     transition: 0.3s;
 }
-.sifre-kutusu button:hover {
+.sifre-kutusu button.giris-btn:hover {
     background: #ff4d88;
     transform: scale(1.03);
 }
@@ -263,9 +277,11 @@ p {
     <div class="sifre-kutusu">
         <h2>🤍 Bu Site Sevgilime Özeldir 🤍</h2>
         <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Lütfen giriş yapmak için şifreyi giriniz:</p>
-        <!-- Kolaylık için Enter tuşuna basınca da giriş yapma özelliği eklendi -->
-        <input type="text" id="sifreInput" placeholder="Şifre..." onkeydown="if(event.key === 'Enter') sifreyiKontrolEt()">
-        <button onclick="sifreyiKontrolEt()">Giriş Yap 💖</button>
+        <div class="sifre-input-container">
+            <input type="password" id="sifreInput" placeholder="Şifre...">
+            <span class="sifre-goster-btn" onclick="sifreGosterGizle()">👁️</span>
+        </div>
+        <button class="giris-btn" onclick="sifreyiKontrolEt()">Giriş Yap 💖</button>
         <div id="hata-mesaji">Yanlış şifre, tekrar dene aşkım! 🥺</div>
     </div>
 </div>
@@ -329,21 +345,35 @@ Sonsuza kadar birlikte olalım. 💍🤍
 <div class="corner-heart bottom-right">🤍</div>
 
 <script>
-// ŞİFRE KONTROL KODU (Geliştirildi)
+// ŞİFRE GÖSTER GİZLE FONKSİYONU
+function sifreGosterGizle() {
+    const sifreInput = document.getElementById("sifreInput");
+    if (sifreInput.type === "password") {
+        sifreInput.type = "text";
+    } else {
+        sifreInput.type = "password";
+    }
+}
+
+// ŞİFRE KONTROL KODU
 function sifreyiKontrolEt() {
-    // Girilen şifrenin başındaki ve sonundaki boşlukları otomatik temizler
     const girilenSifre = document.getElementById("sifreInput").value.trim();
-    
-    // Geçerli şifreniz: 28.04.2026
     const dogruSifre = "28.04.2026"; 
 
     if (girilenSifre === dogruSifre) {
         document.getElementById("pencere-kilidi").style.display = "none";
-        document.getElementById("hata-mesaji").style.display = "none";
     } else {
         document.getElementById("hata-mesaji").style.display = "block";
     }
 }
+
+// Enter tuşuna basıldığında çalışması için tetikleyici
+document.getElementById("sifreInput").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        sifreyiKontrolEt();
+    }
+});
 
 // Aşk Sayacı Kodu
 const baslangicTarihi = new Date("2026-04-28T00:00:00").getTime();
@@ -357,26 +387,5 @@ setInterval(function() {
     const dakika = Math.floor((fark % (1000 * 60 * 60)) / (1000 * 60));
     const saniye = Math.floor((fark % (1000 * 60)) / 1000);
 
-    document.getElementById("ask-sayaci").innerHTML = 
-        gun + " Gün " + saat + " Saat " + dakika + " Dakika " + saniye + " Saniye";
-}, 1000);
-
-// GALERİ ÇALIŞMA KODU
-const slides = document.querySelectorAll('.gallery-slide');
-const prevBtn = document.getElementById('prevBtn');
-const nextBtn = document.getElementById('nextBtn');
-const counter = document.getElementById('photoCounter');
-let currentSlide = 0;
-
-function updateGallery() {
-    slides.forEach((slide, index) => {
-        if(index === currentSlide) {
-            slide.classList.add('active');
-        } else {
-            slide.classList.remove('active');
-        }
-    });
-    counter.textContent = (currentSlide + 1) + " / " + slides.length;
-}
-
-nextBtn.addEventListener('click', () => {
+    const sayacElement = document.getElementById("ask-sayaci");
+    if(sayacElement) {
