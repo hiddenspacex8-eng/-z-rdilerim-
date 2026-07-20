@@ -263,7 +263,8 @@ p {
     <div class="sifre-kutusu">
         <h2>🤍 Bu Site Sevgilime Özeldir 🤍</h2>
         <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Lütfen giriş yapmak için şifreyi giriniz:</p>
-        <input type="password" id="sifreInput" placeholder="Şifre...">
+        <!-- Kolaylık için Enter tuşuna basınca da giriş yapma özelliği eklendi -->
+        <input type="text" id="sifreInput" placeholder="Şifre..." onkeydown="if(event.key === 'Enter') sifreyiKontrolEt()">
         <button onclick="sifreyiKontrolEt()">Giriş Yap 💖</button>
         <div id="hata-mesaji">Yanlış şifre, tekrar dene aşkım! 🥺</div>
     </div>
@@ -305,7 +306,7 @@ Sonsuza kadar birlikte olalım. 💍🤍
   </div>
 </div>
 
-<!-- ROMANTİK TEKLİF ALANI (YENİ EKLENDİ) -->
+<!-- ROMANTİK TEKLİF ALANI -->
 <div class="proposal-container">
     <h2 id="proposal-title">Benimle sonsuza kadar aynı yolda yürür müsün? 💖</h2>
     <div class="proposal-buttons">
@@ -318,7 +319,7 @@ Sonsuza kadar birlikte olalım. 💍🤍
     </div>
 </div>
 
-<!-- KALP YAĞMURU İÇİN CANVAS (YENİ EKLENDİ) -->
+<!-- KALP YAĞMURU İÇİN CANVAS -->
 <canvas id="heart-canvas"></canvas>
 
 <!-- Köşelerde Sabit Duran Kalpler -->
@@ -328,13 +329,17 @@ Sonsuza kadar birlikte olalım. 💍🤍
 <div class="corner-heart bottom-right">🤍</div>
 
 <script>
-// ŞİFRE KONTROL KODU
+// ŞİFRE KONTROL KODU (Geliştirildi)
 function sifreyiKontrolEt() {
-    const girilenSifre = document.getElementById("sifreInput").value;
+    // Girilen şifrenin başındaki ve sonundaki boşlukları otomatik temizler
+    const girilenSifre = document.getElementById("sifreInput").value.trim();
+    
+    // Geçerli şifreniz: 28.04.2026
     const dogruSifre = "28.04.2026"; 
 
     if (girilenSifre === dogruSifre) {
         document.getElementById("pencere-kilidi").style.display = "none";
+        document.getElementById("hata-mesaji").style.display = "none";
     } else {
         document.getElementById("hata-mesaji").style.display = "block";
     }
@@ -375,14 +380,3 @@ function updateGallery() {
 }
 
 nextBtn.addEventListener('click', () => {
-    currentSlide = (currentSlide + 1) % slides.length;
-    updateGallery();
-});
-
-prevBtn.addEventListener('click', () => {
-    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    updateGallery();
-});
-
-// TEKLİF BUTONU KAÇMA FONKSİYONU (YENİ EKLENDİ)
-function escapeButton() {
