@@ -25,51 +25,17 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 .gallery-controls { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold; color: #ff2d75;}
 .nav-btn { background: #ff2d75; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 16px;}
 .nav-btn:hover { background: #ff4d88;}
-
-/* MÜZİK KONTROL PANELİ TASARIMI */
-.music-player-container {
-    margin: 30px auto;
-    background: white;
-    padding: 15px 25px;
-    border-radius: 30px;
-    box-shadow: 0 8px 20px rgba(255, 45, 117, 0.15);
-    display: inline-flex;
-    align-items: center;
-    gap: 15px;
-    border: 2px solid #ffb3c6;
-}
-.music-title {
-    font-size: 16px;
-    font-weight: bold;
-    color: #ff2d75;
-}
-.music-btn {
-    background: #ff2d75;
-    color: white;
-    border: none;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.2s;
-    box-shadow: 0 4px 10px rgba(255, 45, 117, 0.3);
-}
-.music-btn:hover {
-    background: #ff4d88;
-    transform: scale(1.05);
-}
+.music-player-container { margin: 30px auto; background: white; padding: 15px 25px; border-radius: 30px; box-shadow: 0 8px 20px rgba(255, 45, 117, 0.15); display: inline-flex; align-items: center; gap: 15px; border: 2px solid #ffb3c6;}
+.music-title { font-size: 16px; font-weight: bold; color: #ff2d75;}
+.music-btn { background: #ff2d75; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(255, 45, 117, 0.3);}
+.music-btn:hover { background: #ff4d88; transform: scale(1.05);}
+#yt-hidden-player { display: none; visibility: hidden; width: 0; height: 0; position: absolute; pointer-events: none;}
 </style>
+<script src="https://youtube.com"></script>
 </head>
 <body>
 
-<!-- DOĞRUDAN .MP3 SES DOSYASI -->
-<audio id="custom-audio" loop>
-    <source src="https://soundhelix.com" type="audio/mp3">
-</audio>
+<div id="yt-hidden-player"></div>
 
 <div id="pencere-kilidi">
     <div class="sifre-kutusu">
@@ -110,43 +76,51 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
   </div>
 </div>
 
-<!-- GÖRÜNÜR MÜZİK ÇALAR PANELİ -->
 <div class="music-player-container">
     <span class="music-title">Şarkımız 🎶</span>
     <button id="play-pause-btn" class="music-btn" onclick="toggleMusic()">▶</button>
 </div>
 
 <script>
+var player;
+var isPlaying = false;
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('yt-hidden-player', {
+        height: '0',
+        width: '0',
+        videoId: 'XScahAwKYHU',
+        playerVars: {
+            'autoplay': 0,
+            'controls': 0,
+            'loop': 1,
+            'playlist': 'XScahAwKYHU'
+        }
+    });
+}
+
 function sifreyiKontrolEt() {
     var girilen = document.getElementById("sifreInput").value.trim();
     var dogru = "28.04.2026";
     if (girilen === dogru) {
         document.getElementById("pencere-kilidi").style.display = "none";
-        
-        // Giriş anında çalmayı dener (tarayıcı izin verirse başlatır)
-        var audio = document.getElementById("custom-audio");
-        if (audio) {
-            audio.play().then(function() {
-                document.getElementById("play-pause-btn").innerHTML = "⏸";
-            }).catch(function(error) {
-                console.log("Tarayıcı otomatik oynatmayı kısıtladı, tıklama bekleniyor.");
-            });
-        }
     } else {
         document.getElementById("hata-mesaji").style.display = "block";
     }
 }
 
-// Butonla açıp kapatma fonksiyonu (Kesin Çözüm)
 function toggleMusic() {
-    var audio = document.getElementById("custom-audio");
     var btn = document.getElementById("play-pause-btn");
-    if (audio.paused) {
-        audio.play();
-        btn.innerHTML = "⏸";
-    } else {
-        audio.pause();
-        btn.innerHTML = "▶";
+    if (player && typeof player.playVideo === 'function') {
+        if (!isPlaying) {
+            player.playVideo();
+            btn.innerHTML = "⏸";
+            isPlaying = true;
+        } else {
+            player.pauseVideo();
+            btn.innerHTML = "▶";
+            isPlaying = false;
+        }
     }
 }
 
