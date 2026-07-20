@@ -33,9 +33,11 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 </head>
 <body>
 
-<!-- GITHUB KLAZÖRÜNDEKİ M4A DOSYASINI OKUYAN GÜVENLİ SES ETİKETİ -->
+<!-- GITHUB KLAZÖRÜNDEN OKUYACAK AKILLI SES ETİKETİ -->
 <audio id="real-audio" loop preload="auto">
+    <source src="sarkimiz.mp3" type="audio/mpeg">
     <source src="sarkimiz.m4a" type="audio/mp4">
+    Tarayıcınız ses etiketini desteklemiyor.
 </audio>
 
 <div id="pencere-kilidi">
@@ -89,13 +91,12 @@ function sifreyiKontrolEt() {
     if (girilen === dogru) {
         document.getElementById("pencere-kilidi").style.display = "none";
         
-        // Şifre girilince direkt çalmayı tetikler
         var audio = document.getElementById("real-audio");
         if (audio) {
             audio.play().then(function() {
                 document.getElementById("play-pause-btn").innerHTML = "⏸";
             }).catch(function(e) {
-                console.log("Tarayıcı politikası gereği butona basılması bekleniyor.");
+                console.log("Tarayıcı engeli tetiklendi. Kullanıcının butona basması gerekiyor.");
             });
         }
     } else {
