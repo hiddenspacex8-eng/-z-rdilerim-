@@ -174,6 +174,86 @@ p {
 .nav-btn:hover {
     background: #ff4d88;
 }
+
+/* TEKLİF ALANI TASARIMI */
+.proposal-container {
+    text-align: center;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(255, 45, 117, 0.15);
+    max-width: 85%;
+    width: 350px;
+    margin: 40px auto;
+    border: 2px solid #ffb3c6;
+    position: relative;
+    z-index: 10;
+}
+#proposal-title {
+    color: #ff2d75;
+    font-size: 22px;
+    margin-bottom: 25px;
+}
+.proposal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    height: 50px;
+    position: relative;
+}
+.proposal-btn {
+    padding: 10px 25px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+#yes-btn {
+    background: linear-gradient(45deg, #ff2d75, #ff4d88);
+    color: white;
+    box-shadow: 0 5px 15px rgba(255, 45, 117, 0.3);
+}
+#yes-btn:hover {
+    transform: scale(1.1);
+}
+#no-btn {
+    background-color: #cfd8dc;
+    color: #37474f;
+    position: absolute;
+    transition: all 0.1s ease;
+}
+.hidden {
+    display: none;
+}
+#celebration-message {
+    margin-top: 20px;
+    animation: fadeIn 1s ease-in-out;
+}
+#celebration-message h3 {
+    color: #ff2d75;
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+#celebration-message p {
+    color: #444;
+    font-size: 16px;
+    line-height: 1.4;
+}
+#heart-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 99999;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 <body>
@@ -225,6 +305,22 @@ Sonsuza kadar birlikte olalım. 💍🤍
   </div>
 </div>
 
+<!-- ROMANTİK TEKLİF ALANI (YENİ EKLENDİ) -->
+<div class="proposal-container">
+    <h2 id="proposal-title">Benimle sonsuza kadar aynı yolda yürür müsün? 💖</h2>
+    <div class="proposal-buttons">
+        <button id="yes-btn" class="proposal-btn" onclick="celebrateLove()">Evet! ✨</button>
+        <button id="no-btn" class="proposal-btn" onmouseover="escapeButton()" onclick="escapeButton()">Hayır 💔</button>
+    </div>
+    <div id="celebration-message" class="hidden">
+        <h3>Seni Çok Seviyorum! 👩‍❤️‍👨</h3>
+        <p>Hayatımın en güzel 'Evet'ini aldım!<br>İyi ki varsın, hep yanımda kal...</p>
+    </div>
+</div>
+
+<!-- KALP YAĞMURU İÇİN CANVAS (YENİ EKLENDİ) -->
+<canvas id="heart-canvas"></canvas>
+
 <!-- Köşelerde Sabit Duran Kalpler -->
 <div class="corner-heart top-left">🤍</div>
 <div class="corner-heart top-right">🤍</div>
@@ -235,8 +331,6 @@ Sonsuza kadar birlikte olalım. 💍🤍
 // ŞİFRE KONTROL KODU
 function sifreyiKontrolEt() {
     const girilenSifre = document.getElementById("sifreInput").value;
-    
-    // ŞU ANKİ ŞİFRE: 1234 (Değiştirmek isterseniz aşağıdaki "1234" yazısını silip yeni şifrenizi yazın)
     const dogruSifre = "28.04.2026"; 
 
     if (girilenSifre === dogruSifre) {
@@ -289,7 +383,6 @@ prevBtn.addEventListener('click', () => {
     currentSlide = (currentSlide - 1 + slides.length) % slides.length;
     updateGallery();
 });
-</script>
 
-</body>
-</html>
+// TEKLİF BUTONU KAÇMA FONKSİYONU (YENİ EKLENDİ)
+function escapeButton() {
