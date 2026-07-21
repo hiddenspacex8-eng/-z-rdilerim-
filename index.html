@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
@@ -29,6 +29,7 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 .music-title { font-size: 16px; font-weight: bold; color: #ff2d75;}
 .music-btn { background: #ff2d75; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(255, 45, 117, 0.3);}
 .music-btn:hover { background: #ff4d88; transform: scale(1.05);}
+
 /* ===== GECE MODU ===== */
 #darkModeBtn{
 position:fixed;
@@ -96,7 +97,10 @@ left:20px;
 font-size:55px;
 display:none;
 filter:drop-shadow(0 0 15px white);
-z-index:2;#unlockAnimation{
+z-index:2;
+}
+
+#unlockAnimation{
     position: fixed;
     top: 0;
     left: 0;
@@ -128,15 +132,19 @@ z-index:2;#unlockAnimation{
         opacity:0;
     }
 }
-}</style>
+</style>
 </head>
 <body>
+
 <button id="darkModeBtn" onclick="toggleDarkMode()">🌙 Gece Modu</button>
-
 <div id="stars"></div>
-
 <div id="moon">🌙</div>
-<!-- GITHUB KLAZÖRÜNDEN OKUYACAK AKILLI SES ETİKETİ -->
+
+<!-- KİLİT AÇILMA ANİMASYONU ETİKETİ -->
+<div id="unlockAnimation">
+    <div id="lockIcon">🔓</div>
+</div>
+
 <audio id="real-audio" loop preload="auto">
     <source src="sarkimiz.mp3" type="audio/mpeg">
     <source src="sarkimiz.m4a" type="audio/mp4">
@@ -159,7 +167,6 @@ z-index:2;#unlockAnimation{
 </div>
 
 <h1 class="neon">Sevgilim</h1>
-
 <p>İyi ki hayatımdasın...<br><br>Her gün seni sevmek benim için en güzel mutluluk.<br><br>Sonsuza kadar birlikte olalım. 💍🤍</p>
 
 <div class="gallery-wrapper">
@@ -176,9 +183,9 @@ z-index:2;#unlockAnimation{
     <div class="gallery-slide"><img src="10.jpg" alt="Anı 10"></div>
   </div>
   <div class="gallery-controls">
-    <button id="prevBtn" class="nav-btn">◀ Önceki</button>
+    <button id="prevBtn" class="nav-btn" onclick="changeSlide(-1)">◀ Önceki</button>
     <span id="photoCounter">1 / 10</span>
-    <button id="nextBtn" class="nav-btn">Sonraki ▶</button>
+    <button id="nextBtn" class="nav-btn" onclick="changeSlide(1)">Sonraki ▶</button>
   </div>
 </div>
 
@@ -188,33 +195,34 @@ z-index:2;#unlockAnimation{
 </div>
 
 <script>
+// 1. ŞİFRE KONTROLÜ VE ANİMASYON TETİKLEME
 function sifreyiKontrolEt() {
     var girilen = document.getElementById("sifreInput").value.trim();
     var dogru = "28.04.2026";
     if (girilen === dogru) {
         document.getElementById("pencere-kilidi").style.display = "none";
         const anim = document.getElementById("unlockAnimation");
-anim.style.display = "flex";
+        if(anim) anim.style.display = "flex";
 
-const ses = document.getElementById("unlockSound");
-if (ses) ses.play();
-
-setTimeout(() => {
-    anim.style.display = "none";
-}, 1500);
-        var audio = document.getElementById("real-audio");
-        if (audio) {
-            audio.play().then(function() {
-                document.getElementById("play-pause-btn").innerHTML = "⏸";
-            }).catch(function(e) {
-                console.log("Tarayıcı engeli tetiklendi. Kullanıcının butona basması gerekiyor.");
-            });
-        }
+        setTimeout(() => {
+            if(anim) anim.style.display = "none";
+            
+            // Animasyon bittikten sonra müziği çalmayı dene
+            var audio = document.getElementById("real-audio");
+            if (audio) {
+                audio.play().then(function() {
+                    document.getElementById("play-pause-btn").innerHTML = "⏸";
+                }).catch(function(e) {
+                    console.log("Tarayıcı koruması nedeniyle manuel başlatma gerekebilir.");
+                });
+            }
+        }, 1500);
     } else {
         document.getElementById("hata-mesaji").style.display = "block";
     }
 }
 
+// 2. MÜZİK ÇALAR KONTROLÜ
 function toggleMusic() {
     var audio = document.getElementById("real-audio");
     var btn = document.getElementById("play-pause-btn");
@@ -227,94 +235,32 @@ function toggleMusic() {
     }
 }
 
-document.getElementById("sifreInput").addEventListener("keypress", function(e) {
-    if (e.key === "Enter") { e.preventDefault(); sifreyiKontrolEt(); }
-});
+// 3. FOTOĞRAF GALERİSİ KONTROLÜ
+let currentSlide = 0;
+const slides = document.querySelectorAll('.gallery-slide');
+const counter = document.getElementById('photoCounter');
 
-var baslangic = new Date("2026-04-28T00:00:00").getTime();
-setInterval(function() {
-    var simdi = new Date().getTime();
-    var fark = simdi - baslangic;
-    var g = Math.floor(fark / (1000 * 60 * 60 * 24));
-    var s = Math.floor((fark % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var d = Math.floor((fark % (1000 * 60 * 60)) / (1000 * 60));
-    var sn = Math.floor((fark % (1000 * 60)) / 1000);
-    var el = document.getElementById("ask-sayaci");
-    if(el) { el.innerHTML = g + " Gün " + s + " Saat " + d + " Dakika " + sn + " Saniye"; }
-}, 1000);
-
-var slides = document.querySelectorAll('.gallery-slide');
-var prevBtn = document.getElementById('prevBtn');
-var nextBtn = document.getElementById('nextBtn');
-var counter = document.getElementById('photoCounter');
-var currentSlide = 0;
-function updateGallery() {
-    slides.forEach(function(slide, idx) {
-        if(idx === currentSlide) { slide.classList.add('active'); } else { slide.classList.remove('active'); }
-    });
-    if(counter) { counter.textContent = (currentSlide + 1) + " / " + slides.length; }
-}
-if(nextBtn) { nextBtn.addEventListener('click', function() { currentSlide = (currentSlide + 1) % slides.length; updateGallery(); }); }
-if(prevBtn) { prevBtn.addEventListener('click', function() { currentSlide = (currentSlide - 1 + slides.length) % slides.length; updateGallery(); }); }// Gece modu
-const btn = document.createElement("button");
-btn.id = "darkModeBtn";
-btn.innerHTML = "🌙";
-document.body.appendChild(btn);
-
-const stars = document.createElement("div");
-stars.id = "stars";
-document.body.appendChild(stars);
-
-for(let i=0;i<100;i++){
-    const star=document.createElement("div");
-    star.className="star";
-    star.style.left=Math.random()*100+"%";
-    star.style.top=Math.random()*100+"%";
-    star.style.animationDelay=Math.random()*2+"s";
-    stars.appendChild(star);
+function changeSlide(direction) {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + direction + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+    counter.innerHTML = (currentSlide + 1) + " / " + slides.length;
 }
 
-const moon=document.createElement("div");
-moon.id="moon";
-moon.innerHTML="🌙";
-document.body.appendChild(moon);
+// 4. GECE MODU KONTROLÜ VE YILDIZ OLUŞTURMA
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    document.getElementById('stars').style.display = isDark ? 'block' : 'none';
+    document.getElementById('moon').style.display = isDark ? 'block' : 'none';
+    document.getElementById('darkModeBtn').innerHTML = isDark ? "☀️ Gündüz Modu" : "🌙 Gece Modu";
+}
 
-btn.onclick=function(){
-    document.body.classList.toggle("dark-mode");
-    if(document.body.classList.contains("dark-mode")){
-        stars.style.display="block";
-        moon.style.display="block";
-        btn.innerHTML="☀️";
-    }else{
-        stars.style.display="none";
-        moon.style.display="none";
-        btn.innerHTML="🌙";
-    }
-};setTimeout(() => {
-    const yazi = document.createElement("div");
-    yazi.innerHTML = "💖 Seni Çok Seviyorum Sevgilim 💖";
-    yazi.style.position = "fixed";
-    yazi.style.top = "50%";
-    yazi.style.left = "50%";
-    yazi.style.transform = "translate(-50%, -50%) scale(0)";
-    yazi.style.fontSize = "42px";
-    yazi.style.fontWeight = "bold";
-    yazi.style.color = "#ff2d75";
-    yazi.style.textShadow = "0 0 10px white, 0 0 20px #ff2d75, 0 0 40px #ff2d75";
-    yazi.style.zIndex = "10000";
-    yazi.style.transition = "transform 1s ease";
-    document.body.appendChild(yazi);
-
-    setTimeout(() => {
-        yazi.style.transform = "translate(-50%, -50%) scale(1)";
-    }, 100);
-
-    setTimeout(() => {
-        yazi.style.opacity = "0";
-        yazi.style.transition = "opacity 2s";
-    }, 5000);
-}, 3000);
-</script>
-
-</html>
-</body>
+// Yıldızları dinamik olarak arka plana yerleştirme
+const starsContainer = document.getElementById('stars');
+for (let i = 0; i < 100; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDelay = Math.random() * 2 + 's';
