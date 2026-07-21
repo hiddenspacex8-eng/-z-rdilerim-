@@ -30,7 +30,7 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 .music-btn { background: #ff2d75; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(255, 45, 117, 0.3);}
 .music-btn:hover { background: #ff4d88; transform: scale(1.05);}
 
-/* ===== GECE MODU ===== */
+/* ===== GECE MODU STİLLERİ ===== */
 #darkModeBtn{
 position:fixed;
 top:15px;
@@ -93,6 +93,7 @@ filter:drop-shadow(0 0 15px white);
 z-index:2;
 }
 
+/* ===== ANİMASYON STİLLERİ ===== */
 #unlockAnimation{
     position: fixed;
     top: 0;
@@ -135,7 +136,7 @@ z-index:2;
     <div class="sifre-kutusu">
         <h2>🤍 Bu Site Sevgilime Özeldir 🤍</h2>
         <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Lütfen giriş yapmak için şifreyi giriniz:</p>
-        <input type="password" id="sifreInput" placeholder="Şifre...">
+        <input type="text" id="sifreInput" placeholder="Şifre...">
         <button class="giris-btn" onclick="sifreyiKontrolEt()">Giriş Yap 💖</button>
         <div id="hata-mesaji">Yanlış şifre, tekrar dene aşkım! 🥺</div>
     </div>
@@ -190,7 +191,7 @@ function sifreyiKontrolEt() {
                 audio.play().then(function() {
                     document.getElementById("play-pause-btn").innerHTML = "⏸";
                 }).catch(function(e) {
-                    console.log("Müzik için etkileşim gerekiyor.");
+                    console.log("Müzik etkileşim bekliyor.");
                 });
             }
         }, 1500);
@@ -241,13 +242,14 @@ for (let i = 0; i < 60; i++) {
     starsContainer.appendChild(star);
 }
 
-// GÜVENLİ SAYAÇ FONKSİYONU
+// ARTIK GÜVENLİ VE İLERİYE SAYAN CANLI AŞK SAYACI
 const baslangicTarihi = new Date("2026-04-28T00:00:00").getTime();
 setInterval(function() {
     const simdi = new Date().getTime();
     let fark = simdi - baslangicTarihi;
     
-    // Tarih henüz gelmediyse veya eşitse hata vermemesi için koruma
     if (fark <= 0) {
         document.getElementById("ask-sayaci").innerHTML = "Sonsuzluğun ilk günü! 💖";
         return;
+    }
+
