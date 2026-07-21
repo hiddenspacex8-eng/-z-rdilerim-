@@ -251,7 +251,30 @@ btn.onclick=function(){
         moon.style.display="none";
         btn.innerHTML="🌙";
     }
-};
+};setTimeout(() => {
+    const yazi = document.createElement("div");
+    yazi.innerHTML = "💖 Seni Çok Seviyorum Sevgilim 💖";
+    yazi.style.position = "fixed";
+    yazi.style.top = "50%";
+    yazi.style.left = "50%";
+    yazi.style.transform = "translate(-50%, -50%) scale(0)";
+    yazi.style.fontSize = "42px";
+    yazi.style.fontWeight = "bold";
+    yazi.style.color = "#ff2d75";
+    yazi.style.textShadow = "0 0 10px white, 0 0 20px #ff2d75, 0 0 40px #ff2d75";
+    yazi.style.zIndex = "10000";
+    yazi.style.transition = "transform 1s ease";
+    document.body.appendChild(yazi);
+
+    setTimeout(() => {
+        yazi.style.transform = "translate(-50%, -50%) scale(1)";
+    }, 100);
+
+    setTimeout(() => {
+        yazi.style.opacity = "0";
+        yazi.style.transition = "opacity 2s";
+    }, 5000);
+}, 3000);
 </script>
 </body>
 </html>
