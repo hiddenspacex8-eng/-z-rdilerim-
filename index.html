@@ -216,7 +216,42 @@ function updateGallery() {
     if(counter) { counter.textContent = (currentSlide + 1) + " / " + slides.length; }
 }
 if(nextBtn) { nextBtn.addEventListener('click', function() { currentSlide = (currentSlide + 1) % slides.length; updateGallery(); }); }
-if(prevBtn) { prevBtn.addEventListener('click', function() { currentSlide = (currentSlide - 1 + slides.length) % slides.length; updateGallery(); }); }
+if(prevBtn) { prevBtn.addEventListener('click', function() { currentSlide = (currentSlide - 1 + slides.length) % slides.length; updateGallery(); }); }// Gece modu
+const btn = document.createElement("button");
+btn.id = "darkModeBtn";
+btn.innerHTML = "🌙";
+document.body.appendChild(btn);
+
+const stars = document.createElement("div");
+stars.id = "stars";
+document.body.appendChild(stars);
+
+for(let i=0;i<100;i++){
+    const star=document.createElement("div");
+    star.className="star";
+    star.style.left=Math.random()*100+"%";
+    star.style.top=Math.random()*100+"%";
+    star.style.animationDelay=Math.random()*2+"s";
+    stars.appendChild(star);
+}
+
+const moon=document.createElement("div");
+moon.id="moon";
+moon.innerHTML="🌙";
+document.body.appendChild(moon);
+
+btn.onclick=function(){
+    document.body.classList.toggle("dark-mode");
+    if(document.body.classList.contains("dark-mode")){
+        stars.style.display="block";
+        moon.style.display="block";
+        btn.innerHTML="☀️";
+    }else{
+        stars.style.display="none";
+        moon.style.display="none";
+        btn.innerHTML="🌙";
+    }
+};
 </script>
 </body>
 </html>
