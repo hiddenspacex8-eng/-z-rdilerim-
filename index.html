@@ -193,7 +193,15 @@ function sifreyiKontrolEt() {
     var dogru = "28.04.2026";
     if (girilen === dogru) {
         document.getElementById("pencere-kilidi").style.display = "none";
-        
+        const anim = document.getElementById("unlockAnimation");
+anim.style.display = "flex";
+
+const ses = document.getElementById("unlockSound");
+if (ses) ses.play();
+
+setTimeout(() => {
+    anim.style.display = "none";
+}, 1500);
         var audio = document.getElementById("real-audio");
         if (audio) {
             audio.play().then(function() {
