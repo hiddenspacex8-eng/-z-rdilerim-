@@ -35,13 +35,29 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 @keyframes blink{ from{opacity:.2;} to{opacity:1;}}
 #moon{ position:fixed; top:20px; left:20px; font-size:55px; display:none; filter:drop-shadow(0 0 15px white); z-index:2;}
 
-/* ===== KİLİT AÇILMA ANİMASYONU ===== */
-#unlockAnimation{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffdde1; display: flex; justify-content: center; align-items: center; z-index: 99999; transition: opacity 0.5s ease;}
-#lockIcon{ font-size: 100px; animation: unlockEffect 1.5s ease forwards;}
+/* ===== ROMANTİK ŞİFRE EKRANI KONSEPTİ ===== */
+#unlockAnimation{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 99999; transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);}
+#lockIcon{ font-size: 85px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); margin-bottom: 5px; transition: transform 0.4s ease;}
+.romantic-title { font-size: 26px; font-weight: bold; color: #ff4d6d; margin-bottom: 20px; font-family: 'Georgia', serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
+.lock-input-box { display: flex; flex-direction: column; align-items: center; gap: 12px; background: rgba(255, 255, 255, 0.85); padding: 30px 25px; border-radius: 24px; box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2); backdrop-filter: blur(5px); border: 2px solid #ffb3c6; width: 280px;}
+.lock-input-box input { width: 90%; padding: 12px 15px; font-size: 16px; border: 2px solid #ff4d6d; border-radius: 25px; text-align: center; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); font-weight: bold; color: #ff2d75; letter-spacing: 2px;}
+.lock-input-box input::placeholder { letter-spacing: 0px; font-weight: normal; color: #ffa6c9; }
+.lock-input-box button { background: linear-gradient(90deg, #ff4d6d, #ff758f); color: white; border: none; padding: 12px 35px; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
+.lock-input-box button:hover { background: linear-gradient(90deg, #ff758f, #ff4d6d); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 77, 109, 0.6); }
+#errorMessage { color: #e63946; font-size: 13px; font-weight: bold; min-height: 20px; margin-top: 5px; font-family: sans-serif; }
+
+/* Kalplerin uçuşma alanı */
+.heart-bg { position: absolute; font-size: 24px; color: rgba(255, 77, 109, 0.25); pointer-events: none; animation: floatHeart 4s linear infinite; }
+@keyframes floatHeart {
+    0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+
 @keyframes unlockEffect{
-    0%{ transform: scale(0.5) rotate(0deg); opacity:0; }
-    50%{ transform: scale(1.3) rotate(-15deg); opacity:1; }
-    100%{ transform: scale(1) rotate(0deg); opacity:0; }
+    0%{ transform: scale(1) rotate(0deg); opacity:1; }
+    30%{ transform: scale(1.4) rotate(-20deg); opacity:1; }
+    100%{ transform: scale(0) rotate(0deg); opacity:0; }
 }
 </style>
 </head>
@@ -51,9 +67,16 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 <div id="stars"></div>
 <div id="moon">🌙</div>
 
-<!-- ŞİMDİ SİTE BU ANİMASYONLA DOĞRUDAN BAŞLAYACAK -->
+<!-- ROMANTİK ŞİFRE EKRANI -->
 <div id="unlockAnimation">
-    <div id="lockIcon">🔓</div>
+    <!-- Arka planda uçuşan kalpler script ile doldurulacak -->
+    <div id="lockIcon">❤️</div>
+    <div class="romantic-title">Giriş Parolası 💕</div>
+    <div class="lock-input-box" id="inputContainer">
+        <input type="password" id="passwordField" placeholder="Özel Tarihimiz... (GG.AA.YYYY)" onkeydown="if(event.key === 'Enter') checkPassword()">
+        <button onclick="checkPassword()">Sürprizi Aç 💖</button>
+        <div id="errorMessage"></div>
+    </div>
 </div>
 
 <audio id="real-audio" loop preload="auto">
@@ -95,87 +118,44 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 </div>
 
 <script>
-// Sayfa yüklenir yüklenmez animasyonu başlatıp kaldıran fonksiyon
-window.addEventListener('DOMContentLoaded', () => {
+// Giriş ekranında uçuşan kalpler oluşturma fonksiyonu
+function createFloatingHearts() {
+    const animContainer = document.getElementById("unlockAnimation");
+    const hearts = ["❤️", "💖", "💝", "💕", "🤍"];
+    for (let i = 0; i < 15; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart-bg";
+        heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDelay = Math.random() * 4 + "s";
+        heart.style.fontSize = Math.random() * 15 + 15 + "px";
+        animContainer.appendChild(heart);
+    }
+}
+createFloatingHearts();
+
+// ===== ŞİFRE KONTROLÜ VE AÇILIŞ AKSİYONLARI =====
+function checkPassword() {
+    const passwordInput = document.getElementById("passwordField").value.trim();
+    const errorMsg = document.getElementById("errorMessage");
+    const lockIcon = document.getElementById("lockIcon");
+    const inputContainer = document.getElementById("inputContainer");
     const anim = document.getElementById("unlockAnimation");
-    setTimeout(() => {
-        if(anim) {
-            anim.style.opacity = "0";
-            setTimeout(() => { anim.style.display = "none"; }, 500);
-        }
-        // Tarayıcı izin verirse müziği arkada çalmaya zorla
-        var audio = document.getElementById("real-audio");
-        if (audio) {
-            audio.play().then(function() {
-                document.getElementById("play-pause-btn").innerHTML = "⏸";
-            }).catch(function(e) { console.log("Müzik buton etkileşimi bekliyor."); });
-        }
-    }, 1500);
-});
 
-function toggleMusic() {
-    var audio = document.getElementById("real-audio");
-    var btn = document.getElementById("play-pause-btn");
-    if (audio.paused) {
-        audio.play();
-        btn.innerHTML = "⏸";
-    } else {
-        audio.pause();
-        btn.innerHTML = "▶";
-    }
-}
+    // Şifre tam olarak istediğiniz tarih yapıldı
+    if (passwordInput === "28.04.2026") { 
+        errorMsg.innerText = "";
+        inputContainer.style.opacity = "0"; 
+        setTimeout(() => { inputContainer.style.display = "none"; }, 300);
+        
+        lockIcon.innerText = "💝";
+        lockIcon.style.animation = "unlockEffect 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards";
 
-let currentSlide = 0;
-const slides = document.querySelectorAll('.gallery-slide');
-const counter = document.getElementById('photoCounter');
-
-function changeSlide(direction) {
-    if(slides.length === 0) return;
-    slides[currentSlide].classList.remove('active');
-    currentSlide = (currentSlide + direction + slides.length) % slides.length;
-    slides[currentSlide].classList.add('active');
-    counter.innerHTML = (currentSlide + 1) + " / " + slides.length;
-}
-
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
-    document.getElementById('stars').style.display = isDark ? 'block' : 'none';
-    document.getElementById('moon').style.display = isDark ? 'block' : 'none';
-    document.getElementById('darkModeBtn').innerHTML = isDark ? "☀️ Gündüz Modu" : "🌙 Gece Modu";
-    if(isDark) {
-        const starsContainer = document.getElementById('stars');
-        if(starsContainer.children.length === 0) {
-            for (let i = 0; i < 60; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 2 + 's';
-                starsContainer.appendChild(star);
+        setTimeout(() => {
+            if(anim) {
+                anim.style.opacity = "0";
+                setTimeout(() => { anim.style.display = "none"; }, 600);
             }
-        }
-    }
-}
-
-const baslangicTarihi = new Date("2026-04-28T00:00:00").getTime();
-setInterval(function() {
-    const simdi = new Date().getTime();
-    let fark = simdi - baslangicTarihi;
-    
-    if (fark <= 0) {
-        document.getElementById("ask-sayaci").innerHTML = "Sonsuzluğun ilk günü! 💖";
-        return;
-    }
-
-    const gun = Math.floor(fark / (1000 * 60 * 60 * 24));
-    const saat = Math.floor((fark % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const dakika = Math.floor((fark % (1000 * 60 * 60)) / (1000 * 60));
-    const saniye = Math.floor((fark % (1000 * 60)) / 1000);
-
-    document.getElementById("ask-sayaci").innerHTML = 
-        gun + " Gün, " + saat + " Saat, " + dakika + " Dakika, " + saniye + " Saniye 💖";
-}, 1000);
-</script>
-</body>
-</html>
+            // Müzik otomatik başlar
+            var audio = document.getElementById("real-audio");
+            if (audio) {
