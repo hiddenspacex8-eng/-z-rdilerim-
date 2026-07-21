@@ -1,14 +1,19 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sana Bir Sürpriz 🤍</title>
 <style>
-body { background: #ffdde1; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; min-height: 100vh; padding-bottom: 40px; overflow-x: hidden;}
+#pencere-kilidi { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffdde1; z-index: 100000; display: flex; flex-direction: column; justify-content: center; align-items: center; font-family: Arial, sans-serif;}
+.sifre-kutusu { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 85%; width: 300px;}
+.sifre-kutusu h2 { color: #ff2d75; margin-bottom: 20px; font-size: 22px;}
+.sifre-kutusu input { width: 85%; padding: 12px; font-size: 18px; border: 2px solid #ffdde1; border-radius: 10px; outline: none; text-align: center; margin-bottom: 15px; transition: 0.3s;}
+.sifre-kutusu input:focus { border-color: #ff2d75;}
+.sifre-kutusu button.giris-btn { background: #ff2d75; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 25px; cursor: pointer; width: 90%; transition: 0.3s;}
+.sifre-kutusu button.giris-btn:hover { background: #ff4d88; transform: scale(1.03);}
+#hata-mesaji { color: red; margin-top: 10px; font-weight: bold; display: none;}
+body { background: #ffdde1; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; min-height: 100vh; padding-bottom: 40px;}
 h1 { margin-top: 30px; font-size: 36px; color: red;}
 p { font-size: 20px; color: #444; padding: 0 15px;}
 .neon { color: white; font-size: 36px; text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;}
@@ -24,65 +29,26 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 .music-title { font-size: 16px; font-weight: bold; color: #ff2d75;}
 .music-btn { background: #ff2d75; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(255, 45, 117, 0.3);}
 .music-btn:hover { background: #ff4d88; transform: scale(1.05);}
-
-/* ===== GECE MODU ===== */
-#darkModeBtn{ position:fixed; top:15px; right:15px; background:#ff2d75; color:#fff; border:none; padding:10px 16px; border-radius:25px; cursor:pointer; z-index:99999; font-size:16px;}
-.dark-mode{ background:#0b1020 !important; color:white; transition:.5s;}
-.dark-mode p, .dark-mode h1, .dark-mode h2, .dark-mode .music-title, .dark-mode #ask-sayaci{ color:white !important;}
-.dark-mode .gallery-container, .dark-mode .music-player-container{ background:#1c1c1c; border-color:#555;}
-#stars{ position:fixed; top:0; left:0; width:100%; height:100%; display:none; pointer-events:none; z-index:-1;}
-.star{ position:absolute; width:2px; height:2px; background:white; border-radius:50%; animation:blink 2s infinite alternate;}
-@keyframes blink{ from{opacity:.2;} to{opacity:1;}}
-#moon{ position:fixed; top:20px; left:20px; font-size:55px; display:none; filter:drop-shadow(0 0 15px white); z-index:2;}
-
-/* ===== ROMANTİK ŞİFRE EKRANI KONSEPTİ ===== */
-#unlockAnimation{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 99999; transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);}
-#lockIcon{ font-size: 85px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); margin-bottom: 5px; transition: transform 0.4s ease;}
-.romantic-title { font-size: 26px; font-weight: bold; color: #ff4d6d; margin-bottom: 20px; font-family: 'Georgia', serif; text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
-.lock-input-box { display: flex; flex-direction: column; align-items: center; gap: 12px; background: rgba(255, 255, 255, 0.85); padding: 30px 25px; border-radius: 24px; box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2); backdrop-filter: blur(5px); border: 2px solid #ffb3c6; width: 280px;}
-.lock-input-box input { width: 90%; padding: 12px 15px; font-size: 16px; border: 2px solid #ff4d6d; border-radius: 25px; text-align: center; outline: none; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05); font-weight: bold; color: #ff2d75; letter-spacing: 2px;}
-.lock-input-box input::placeholder { letter-spacing: 0px; font-weight: normal; color: #ffa6c9; }
-.lock-input-box button { background: linear-gradient(90deg, #ff4d6d, #ff758f); color: white; border: none; padding: 12px 35px; border-radius: 25px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
-.lock-input-box button:hover { background: linear-gradient(90deg, #ff758f, #ff4d6d); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 77, 109, 0.6); }
-#errorMessage { color: #e63946; font-size: 13px; font-weight: bold; min-height: 20px; margin-top: 5px; font-family: sans-serif; }
-
-/* Kalplerin uçuşma alanı */
-.heart-bg { position: absolute; font-size: 24px; color: rgba(255, 77, 109, 0.25); pointer-events: none; animation: floatHeart 4s linear infinite; }
-@keyframes floatHeart {
-    0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-    50% { opacity: 1; }
-    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
-}
-
-@keyframes unlockEffect{
-    0%{ transform: scale(1) rotate(0deg); opacity:1; }
-    30%{ transform: scale(1.4) rotate(-20deg); opacity:1; }
-    100%{ transform: scale(0) rotate(0deg); opacity:0; }
-}
 </style>
 </head>
 <body>
 
-<button id="darkModeBtn" onclick="toggleDarkMode()">🌙 Gece Modu</button>
-<div id="stars"></div>
-<div id="moon">🌙</div>
-
-<!-- ROMANTİK ŞİFRE EKRANI -->
-<div id="unlockAnimation">
-    <!-- Arka planda uçuşan kalpler script ile doldurulacak -->
-    <div id="lockIcon">❤️</div>
-    <div class="romantic-title">Giriş Parolası 💕</div>
-    <div class="lock-input-box" id="inputContainer">
-        <input type="password" id="passwordField" placeholder="Özel Tarihimiz... (GG.AA.YYYY)" onkeydown="if(event.key === 'Enter') checkPassword()">
-        <button onclick="checkPassword()">Sürprizi Aç 💖</button>
-        <div id="errorMessage"></div>
-    </div>
-</div>
-
+<!-- GITHUB KLAZÖRÜNDEN OKUYACAK AKILLI SES ETİKETİ -->
 <audio id="real-audio" loop preload="auto">
     <source src="sarkimiz.mp3" type="audio/mpeg">
     <source src="sarkimiz.m4a" type="audio/mp4">
+    Tarayıcınız ses etiketini desteklemiyor.
 </audio>
+
+<div id="pencere-kilidi">
+    <div class="sifre-kutusu">
+        <h2>🤍 Bu Site Sevgilime Özeldir 🤍</h2>
+        <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Lütfen giriş yapmak için şifreyi giriniz:</p>
+        <input type="password" id="sifreInput" placeholder="Şifre...">
+        <button class="giris-btn" onclick="sifreyiKontrolEt()">Giriş Yap 💖</button>
+        <div id="hata-mesaji">Yanlış şifre, tekrar dene aşkım! 🥺</div>
+    </div>
+</div>
 
 <div class="sayac-kutusu" style="text-align: center; margin: 20px; font-family: sans-serif;">
     <h2 style="color: #ff4d6d;">Birlikte Geçen Zamanımız</h2>
@@ -90,6 +56,7 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 </div>
 
 <h1 class="neon">Sevgilim</h1>
+
 <p>İyi ki hayatımdasın...<br><br>Her gün seni sevmek benim için en güzel mutluluk.<br><br>Sonsuza kadar birlikte olalım. 💍🤍</p>
 
 <div class="gallery-wrapper">
@@ -106,9 +73,9 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
     <div class="gallery-slide"><img src="10.jpg" alt="Anı 10"></div>
   </div>
   <div class="gallery-controls">
-    <button id="prevBtn" class="nav-btn" onclick="changeSlide(-1)">◀ Önceki</button>
+    <button id="prevBtn" class="nav-btn">◀ Önceki</button>
     <span id="photoCounter">1 / 10</span>
-    <button id="nextBtn" class="nav-btn" onclick="changeSlide(1)">Sonraki ▶</button>
+    <button id="nextBtn" class="nav-btn">Sonraki ▶</button>
   </div>
 </div>
 
@@ -118,44 +85,66 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 </div>
 
 <script>
-// Giriş ekranında uçuşan kalpler oluşturma fonksiyonu
-function createFloatingHearts() {
-    const animContainer = document.getElementById("unlockAnimation");
-    const hearts = ["❤️", "💖", "💝", "💕", "🤍"];
-    for (let i = 0; i < 15; i++) {
-        const heart = document.createElement("div");
-        heart.className = "heart-bg";
-        heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDelay = Math.random() * 4 + "s";
-        heart.style.fontSize = Math.random() * 15 + 15 + "px";
-        animContainer.appendChild(heart);
+function sifreyiKontrolEt() {
+    var girilen = document.getElementById("sifreInput").value.trim();
+    var dogru = "28.04.2026";
+    if (girilen === dogru) {
+        document.getElementById("pencere-kilidi").style.display = "none";
+        
+        var audio = document.getElementById("real-audio");
+        if (audio) {
+            audio.play().then(function() {
+                document.getElementById("play-pause-btn").innerHTML = "⏸";
+            }).catch(function(e) {
+                console.log("Tarayıcı engeli tetiklendi. Kullanıcının butona basması gerekiyor.");
+            });
+        }
+    } else {
+        document.getElementById("hata-mesaji").style.display = "block";
     }
 }
-createFloatingHearts();
 
-// ===== ŞİFRE KONTROLÜ VE AÇILIŞ AKSİYONLARI =====
-function checkPassword() {
-    const passwordInput = document.getElementById("passwordField").value.trim();
-    const errorMsg = document.getElementById("errorMessage");
-    const lockIcon = document.getElementById("lockIcon");
-    const inputContainer = document.getElementById("inputContainer");
-    const anim = document.getElementById("unlockAnimation");
+function toggleMusic() {
+    var audio = document.getElementById("real-audio");
+    var btn = document.getElementById("play-pause-btn");
+    if (audio.paused) {
+        audio.play();
+        btn.innerHTML = "⏸";
+    } else {
+        audio.pause();
+        btn.innerHTML = "▶";
+    }
+}
 
-    // Şifre tam olarak istediğiniz tarih yapıldı
-    if (passwordInput === "28.04.2026") { 
-        errorMsg.innerText = "";
-        inputContainer.style.opacity = "0"; 
-        setTimeout(() => { inputContainer.style.display = "none"; }, 300);
-        
-        lockIcon.innerText = "💝";
-        lockIcon.style.animation = "unlockEffect 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards";
+document.getElementById("sifreInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") { e.preventDefault(); sifreyiKontrolEt(); }
+});
 
-        setTimeout(() => {
-            if(anim) {
-                anim.style.opacity = "0";
-                setTimeout(() => { anim.style.display = "none"; }, 600);
-            }
-            // Müzik otomatik başlar
-            var audio = document.getElementById("real-audio");
-            if (audio) {
+var baslangic = new Date("2026-04-28T00:00:00").getTime();
+setInterval(function() {
+    var simdi = new Date().getTime();
+    var fark = simdi - baslangic;
+    var g = Math.floor(fark / (1000 * 60 * 60 * 24));
+    var s = Math.floor((fark % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var d = Math.floor((fark % (1000 * 60 * 60)) / (1000 * 60));
+    var sn = Math.floor((fark % (1000 * 60)) / 1000);
+    var el = document.getElementById("ask-sayaci");
+    if(el) { el.innerHTML = g + " Gün " + s + " Saat " + d + " Dakika " + sn + " Saniye"; }
+}, 1000);
+
+var slides = document.querySelectorAll('.gallery-slide');
+var prevBtn = document.getElementById('prevBtn');
+var nextBtn = document.getElementById('nextBtn');
+var counter = document.getElementById('photoCounter');
+var currentSlide = 0;
+function updateGallery() {
+    slides.forEach(function(slide, idx) {
+        if(idx === currentSlide) { slide.classList.add('active'); } else { slide.classList.remove('active'); }
+    });
+    if(counter) { counter.textContent = (currentSlide + 1) + " / " + slides.length; }
+}
+if(nextBtn) { nextBtn.addEventListener('click', function() { currentSlide = (currentSlide + 1) % slides.length; updateGallery(); }); }
+if(prevBtn) { prevBtn.addEventListener('click', function() { currentSlide = (currentSlide - 1 + slides.length) % slides.length; updateGallery(); }); }
+</script>
+</body>
+</html>
