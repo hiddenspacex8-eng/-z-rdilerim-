@@ -109,17 +109,17 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 </div>
 
 <script>
-// Eski önbelleği kırmak için otomatik sürüm kontrolü
-if (!window.location.search.includes('v=')) {
-    window.location.href = window.location.pathname + '?v=' + Date.now();
+// Önbellek kırma mekanizması
+if (!window.location.search.includes('cache_bypass=')) {
+    window.location.href = window.location.pathname + '?cache_bypass=' + Date.now();
 }
 
 function sifreyiKontrolEt() {
     var girilen = document.getElementById("sifreInput").value.trim();
     var dogru = "28.04.2026";
     if (girilen === dogru) {
-        document.getElementById("pencere-kilidi").style.style.display = "none"; // Çift korumalı kapatma
-        document.getElementById("pencere-kilidi").remove(); // Eski katmanı tamamen DOM'dan siliyoruz
+        var kilitEkrani = document.getElementById("pencere-kilidi");
+        if(kilitEkrani) kilitEkrani.style.display = "none";
         
         const anim = document.getElementById("unlockAnimation");
         if(anim) anim.style.display = "flex";
@@ -131,7 +131,7 @@ function sifreyiKontrolEt() {
                 audio.play().then(function() {
                     document.getElementById("play-pause-btn").innerHTML = "⏸";
                 }).catch(function(e) {
-                    console.log("Müzik etkileşim bekliyor.");
+                    console.log("Müzik için etkileşim gerekiyor.");
                 });
             }
         }, 1500);
@@ -182,3 +182,4 @@ for (let i = 0; i < 60; i++) {
     starsContainer.appendChild(star);
 }
 
+// 2026 yılına göre uyarlanmış hatasız canlı kronometre
