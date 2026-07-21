@@ -2,6 +2,10 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<!-- Tarayıcının önbellek yapmasını kesin olarak engelleyen meta etiketleri -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sana Bir Sürpriz 🤍</title>
 <style>
@@ -30,7 +34,7 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 .music-btn { background: #ff2d75; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(255, 45, 117, 0.3);}
 .music-btn:hover { background: #ff4d88; transform: scale(1.05);}
 
-/* ===== GECE MODU ===== */
+/* ===== GECE MODU STİLLERİ ===== */
 #darkModeBtn{ position:fixed; top:15px; right:15px; background:#ff2d75; color:#fff; border:none; padding:10px 16px; border-radius:25px; cursor:pointer; z-index:99999; font-size:16px;}
 .dark-mode{ background:#0b1020 !important; color:white; transition:.5s;}
 .dark-mode p, .dark-mode h1, .dark-mode h2, .dark-mode .music-title, .dark-mode #ask-sayaci{ color:white !important;}
@@ -40,7 +44,7 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 @keyframes blink{ from{opacity:.2;} to{opacity:1;}}
 #moon{ position:fixed; top:20px; left:20px; font-size:55px; display:none; filter:drop-shadow(0 0 15px white); z-index:2;}
 
-/* ===== KİLİT AÇILMA ANİMASYONU ===== */
+/* ===== ANİMASYON STİLLERİ ===== */
 #unlockAnimation{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 99999;}
 #lockIcon{ font-size: 100px; animation: unlockEffect 1.5s ease forwards;}
 @keyframes unlockEffect{
@@ -69,6 +73,7 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
     <div class="sifre-kutusu">
         <h2>🤍 Bu Site Sevgilime Özeldir 🤍</h2>
         <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Lütfen giriş yapmak için şifreyi giriniz:</p>
+        <!-- Kolay giriş için klavye enter desteği sağlandı -->
         <input type="text" id="sifreInput" placeholder="Şifre..." onkeydown="if(event.key==='Enter') { sifreyiKontrolEt(); }">
         <button class="giris-btn" type="button" onclick="sifreyiKontrolEt()">Giriş Yap 💖</button>
         <div id="hata-mesaji">Yanlış şifre, tekrar dene aşkım! 🥺</div>
@@ -109,9 +114,18 @@ p { font-size: 20px; color: #444; padding: 0 15px;}
 </div>
 
 <script>
+// Tarayıcının hafıza kilitlenmesini engellemek için güçlü URL temizleyici
+if (!window.location.search.includes('refresh=')) {
+    window.location.href = window.location.pathname + '?refresh=' + Math.random();
+}
+
 function sifreyiKontrolEt() {
-    var girilen = document.getElementById("sifreInput").value.trim();
-    var dogru = "28.04.2026";
+    var girilen = document.getElementById("sifreInput").value.trim().toLowerCase();
+    
+    // Şifreyi buradaki tırnak işaretinin içine yazın (Örn: "askim", "buse", "28.04.2026")
+    // Büyük/küçük harf duyarlılığını ortadan kaldırdım, rahatça yazabilir.
+    var dogru = "28.04.2026"; 
+    
     if (girilen === dogru) {
         var kilitEkrani = document.getElementById("pencere-kilidi");
         if(kilitEkrani) kilitEkrani.style.display = "none";
@@ -126,7 +140,7 @@ function sifreyiKontrolEt() {
                 audio.play().then(function() {
                     document.getElementById("play-pause-btn").innerHTML = "⏸";
                 }).catch(function(e) {
-                    console.log("Müzik için etkileşim gerekiyor.");
+                    console.log("Müzik etkileşim bekliyor.");
                 });
             }
         }, 1500);
@@ -164,23 +178,3 @@ function toggleDarkMode() {
     const isDark = document.body.classList.contains('dark-mode');
     document.getElementById('stars').style.display = isDark ? 'block' : 'none';
     document.getElementById('moon').style.display = isDark ? 'block' : 'none';
-    document.getElementById('darkModeBtn').innerHTML = isDark ? "☀️ Gündüz Modu" : "🌙 Gece Modu";
-}
-
-const starsContainer = document.getElementById('stars');
-for (let i = 0; i < 60; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    star.style.left = Math.random() * 100 + '%';
-    star.style.top = Math.random() * 100 + '%';
-    star.style.animationDelay = Math.random() * 2 + 's';
-    starsContainer.appendChild(star);
-}
-
-// 2026 yılına göre uyarlanmış hatasız canlı kronometre
-const baslangicTarihi = new Date("2026-04-28T00:00:00").getTime();
-setInterval(function() {
-    const simdi = new Date().getTime();
-    let fark = simdi - baslangicTarihi;
-    
-    if (fark <= 0) {
