@@ -1,150 +1,302 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sana Bir Sürpriz 🤍</title>
-<style>
-#pencere-kilidi { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffdde1; z-index: 100000; display: flex; flex-direction: column; justify-content: center; align-items: center; font-family: Arial, sans-serif;}
-.sifre-kutusu { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; max-width: 85%; width: 300px;}
-.sifre-kutusu h2 { color: #ff2d75; margin-bottom: 20px; font-size: 22px;}
-.sifre-kutusu input { width: 85%; padding: 12px; font-size: 18px; border: 2px solid #ffdde1; border-radius: 10px; outline: none; text-align: center; margin-bottom: 15px; transition: 0.3s;}
-.sifre-kutusu input:focus { border-color: #ff2d75;}
-.sifre-kutusu button.giris-btn { background: #ff2d75; color: white; border: none; padding: 12px 25px; font-size: 18px; border-radius: 25px; cursor: pointer; width: 90%; transition: 0.3s;}
-.sifre-kutusu button.giris-btn:hover { background: #ff4d88; transform: scale(1.03);}
-#hata-mesaji { color: red; margin-top: 10px; font-weight: bold; display: none;}
-body { background: #ffdde1; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; min-height: 100vh; padding-bottom: 40px;}
-h1 { margin-top: 30px; font-size: 36px; color: red;}
-p { font-size: 20px; color: #444; padding: 0 15px;}
-.neon { color: white; font-size: 36px; text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;}
-.gallery-wrapper { margin: 40px auto; max-width: 90%; width: 350px;}
-.gallery-container { position: relative; width: 100%; height: 350px; background: #fff; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; border: 5px solid #fff;}
-.gallery-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.5s ease-in-out; display: flex; justify-content: center; align-items: center;}
-.gallery-slide.active { opacity: 1; z-index: 2;}
-.gallery-slide img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px;}
-.gallery-controls { margin-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold; color: #ff2d75;}
-.nav-btn { background: #ff2d75; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 16px;}
-.nav-btn:hover { background: #ff4d88;}
-.music-player-container { margin: 30px auto; background: white; padding: 15px 25px; border-radius: 30px; box-shadow: 0 8px 20px rgba(255, 45, 117, 0.15); display: inline-flex; align-items: center; gap: 15px; border: 2px solid #ffb3c6;}
-.music-title { font-size: 16px; font-weight: bold; color: #ff2d75;}
-.music-btn { background: #ff2d75; color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: 0 4px 10px rgba(255, 45, 117, 0.3);}
-.music-btn:hover { background: #ff4d88; transform: scale(1.05);}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❤️ Sevgilim İçin ❤️</title>
+
+   <style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(180deg,#09001f,#12002d,#1d003f);
+color:white;
+text-align:center;
+overflow-x:hidden;
+}
+
+#password-screen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.password-box{
+background:rgba(255,255,255,.1);
+padding:30px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+width:320px;
+box-shadow:0 0 20px hotpink;
+}
+
+.password-box input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+margin-top:15px;
+font-size:18px;
+text-align:center;
+}
+
+.password-box button{
+margin-top:15px;
+padding:12px 25px;
+border:none;
+border-radius:30px;
+background:#ff1493;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+
+.title{
+font-size:50px;
+margin-top:50px;
+color:#ff66cc;
+text-shadow:0 0 15px hotpink;
+animation:pulse 2s infinite;
+}
+
+.subtitle{
+font-size:22px;
+margin:20px;
+}
+
+.music-btn{
+padding:15px 30px;
+font-size:18px;
+border:none;
+border-radius:40px;
+background:#ff1493;
+color:white;
+cursor:pointer;
+margin:20px;
+}
+
+.typewriter{
+margin-top:40px;
+font-size:26px;
+min-height:40px;
+color:#fff;
+}
+
+.gallery{
+margin-top:70px;
+}
+
+.gallery img{
+width:220px;
+height:220px;
+object-fit:cover;
+border-radius:20px;
+margin:10px;
+box-shadow:0 0 20px hotpink;
+transition:.4s;
+}
+
+.gallery img:hover{
+transform:scale(1.08);
+}
+
+.counter,.letter,.gift,.final{
+margin-top:80px;
+padding:20px;
+}
+
+.letter p{
+max-width:700px;
+margin:auto;
+font-size:22px;
+line-height:1.8;
+}
+
+.gift button,
+.final button{
+padding:18px 35px;
+font-size:20px;
+border:none;
+border-radius:40px;
+background:#ff1493;
+color:white;
+cursor:pointer;
+box-shadow:0 0 20px hotpink;
+}
+
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.05);}
+100%{transform:scale(1);}
+}
+</style> 
 </head>
+
 <body>
 
-<!-- GITHUB KLAZÖRÜNDEN OKUYACAK AKILLI SES ETİKETİ -->
-<audio id="real-audio" loop preload="auto">
-    <source src="sarkimiz.mp3" type="audio/mpeg">
-    <source src="sarkimiz.m4a" type="audio/mp4">
-    Tarayıcınız ses etiketini desteklemiyor.
-</audio>
+<!-- Şifre Ekranı -->
+<div id="password-screen">
+    <div class="password-box">
+        <h1>🔐 Sadece Sevgilime Özel</h1>
+        <p>Şifreyi Gir ❤️</p>
 
-<div id="pencere-kilidi">
-    <div class="sifre-kutusu">
-        <h2>🤍 Bu Site Sevgilime Özeldir 🤍</h2>
-        <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Lütfen giriş yapmak için şifreyi giriniz:</p>
-        <input type="password" id="sifreInput" placeholder="Şifre...">
-        <button class="giris-btn" onclick="sifreyiKontrolEt()">Giriş Yap 💖</button>
-        <div id="hata-mesaji">Yanlış şifre, tekrar dene aşkım! 🥺</div>
+        <input type="password" id="password" placeholder="Şifre">
+
+        <button onclick="checkPassword()">
+            Kilidi Aç ❤️
+        </button>
+
+        <p id="error"></p>
     </div>
 </div>
 
-<div class="sayac-kutusu" style="text-align: center; margin: 20px; font-family: sans-serif;">
-    <h2 style="color: #ff4d6d;">Birlikte Geçen Zamanımız</h2>
-    <div id="ask-sayaci" style="font-size: 24px; font-weight: bold; color: #333;">Hesaplanıyor...</div>
-</div>
+<!-- Ana Sayfa -->
+<div id="main-content" style="display:none;">
 
-<h1 class="neon">Sevgilim</h1>
+    <h1 class="title">
+        Seni Çok Seviyorum Sevgilim ❤️
+    </h1>
 
-<p>İyi ki hayatımdasın...<br><br>Her gün seni sevmek benim için en güzel mutluluk.<br><br>Sonsuza kadar birlikte olalım. 💍🤍</p>
+    <p class="subtitle">
+        Bu siteyi sadece senin için hazırladım...
+    </p>
 
-<div class="gallery-wrapper">
-  <div class="gallery-container">
-    <div class="gallery-slide active"><img src="IMG_20260526_213453.jpg" alt="Anı 1"></div>
-    <div class="gallery-slide"><img src="IMG_20260619_115607.jpg" alt="Anı 2"></div>
-    <div class="gallery-slide"><img src="IMG_20260708_162842_849.jpg" alt="Anı 3"></div>
-    <div class="gallery-slide"><img src="IMG_20260716_223451_661.jpg" alt="Anı 4"></div>
-    <div class="gallery-slide"><img src="IMG_20260716_223542_995.jpg" alt="Anı 5"></div>
-    <div class="gallery-slide"><img src="6.jpg" alt="Anı 6"></div>
-    <div class="gallery-slide"><img src="7.jpg" alt="Anı 7"></div>
-    <div class="gallery-slide"><img src="hailuo_1784235468.png" alt="Anı 8"></div>
-    <div class="gallery-slide"><img src="9.jpg" alt="Anı 9"></div>
-    <div class="gallery-slide"><img src="10.jpg" alt="Anı 10"></div>
-  </div>
-  <div class="gallery-controls">
-    <button id="prevBtn" class="nav-btn">◀ Önceki</button>
-    <span id="photoCounter">1 / 10</span>
-    <button id="nextBtn" class="nav-btn">Sonraki ▶</button>
-  </div>
-</div>
+    <button onclick="startMusic()" class="music-btn">
+        🎵 Müziği Başlat
+    </button>
 
-<div class="music-player-container">
-    <span class="music-title">Şarkımız 🎶</span>
-    <button id="play-pause-btn" class="music-btn" onclick="toggleMusic()">▶</button>
+    <audio id="music" loop>
+        <source src="muzik.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Daktilo Yazısı -->
+    <div class="typewriter">
+        <span id="typing"></span>
+    </div>
+
+    <!-- Fotoğraf Galerisi -->
+    <section class="gallery">
+        <h2>📸 Anılarımız</h2>
+
+        <img src="foto1.jpg">
+        <img src="foto2.jpg">
+        <img src="foto3.jpg">
+    </section>
+
+    <!-- Süre Sayacı -->
+    <section class="counter">
+        <h2>❤️ Birlikte Geçen Süre ❤️</h2>
+
+        <div id="loveCounter"></div>
+    </section>
+
+    <!-- Romantik Mektup -->
+    <section class="letter">
+
+        <h2>💌 Sana Bir Mektubum Var</h2>
+
+        <p>
+        Hayatıma girdiğin günden beri her günüm daha güzel.
+        Senin gülüşün en mutlu olduğum an...
+        Seni tarif edemeyeceğim kadar çok seviyorum.
+        İyi ki varsın Sevgilim. ❤️
+        </p>
+
+    </section>
+
+    <!-- Sürpriz Kutusu -->
+    <section class="gift">
+
+        <button onclick="openGift()">
+            🎁 Sürpriz Kutusunu Aç
+        </button>
+
+    </section>
+
+    <!-- Final -->
+    <section class="final">
+
+        <h1>
+            💖 Sonsuza Kadar Sen 💖
+        </h1>
+
+        <button onclick="showFinal()">
+            💍 Bana Tıkla
+        </button>
+
+    </section>
+
 </div>
 
 <script>
-function sifreyiKontrolEt() {
-    var girilen = document.getElementById("sifreInput").value.trim();
-    var dogru = "28.04.2026";
-    if (girilen === dogru) {
-        document.getElementById("pencere-kilidi").style.display = "none";
-        
-        var audio = document.getElementById("real-audio");
-        if (audio) {
-            audio.play().then(function() {
-                document.getElementById("play-pause-btn").innerHTML = "⏸";
-            }).catch(function(e) {
-                console.log("Tarayıcı engeli tetiklendi. Kullanıcının butona basması gerekiyor.");
-            });
-        }
+const correctPassword = "28.04.2026";
+
+function checkPassword() {
+    const input = document.getElementById("password").value;
+
+    if (input === correctPassword) {
+        document.getElementById("password-screen").style.display = "none";
+        document.getElementById("main-content").style.display = "block";
+        typeWriter();
+        updateCounter();
+        setInterval(updateCounter, 1000);
     } else {
-        document.getElementById("hata-mesaji").style.display = "block";
+        document.getElementById("error").innerHTML = "❌ Şifre yanlış!";
     }
 }
 
-function toggleMusic() {
-    var audio = document.getElementById("real-audio");
-    var btn = document.getElementById("play-pause-btn");
-    if (audio.paused) {
-        audio.play();
-        btn.innerHTML = "⏸";
-    } else {
-        audio.pause();
-        btn.innerHTML = "▶";
+function startMusic() {
+    document.getElementById("music").play();
+}
+
+const text =
+"Seni tanıdığım günden beri hayatım daha güzel... Seni çok seviyorum Sevgilim. ❤️";
+
+let i = 0;
+
+function typeWriter() {
+    if (i < text.length) {
+        document.getElementById("typing").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 60);
     }
 }
 
-document.getElementById("sifreInput").addEventListener("keypress", function(e) {
-    if (e.key === "Enter") { e.preventDefault(); sifreyiKontrolEt(); }
-});
+function updateCounter() {
+    const start = new Date("2026-04-28T00:00:00");
+    const now = new Date();
 
-var baslangic = new Date("2026-04-28T00:00:00").getTime();
-setInterval(function() {
-    var simdi = new Date().getTime();
-    var fark = simdi - baslangic;
-    var g = Math.floor(fark / (1000 * 60 * 60 * 24));
-    var s = Math.floor((fark % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var d = Math.floor((fark % (1000 * 60 * 60)) / (1000 * 60));
-    var sn = Math.floor((fark % (1000 * 60)) / 1000);
-    var el = document.getElementById("ask-sayaci");
-    if(el) { el.innerHTML = g + " Gün " + s + " Saat " + d + " Dakika " + sn + " Saniye"; }
-}, 1000);
+    const diff = now - start;
 
-var slides = document.querySelectorAll('.gallery-slide');
-var prevBtn = document.getElementById('prevBtn');
-var nextBtn = document.getElementById('nextBtn');
-var counter = document.getElementById('photoCounter');
-var currentSlide = 0;
-function updateGallery() {
-    slides.forEach(function(slide, idx) {
-        if(idx === currentSlide) { slide.classList.add('active'); } else { slide.classList.remove('active'); }
-    });
-    if(counter) { counter.textContent = (currentSlide + 1) + " / " + slides.length; }
+    const gun = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const saat = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const dakika = Math.floor((diff / (1000 * 60)) % 60);
+    const saniye = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("loveCounter").innerHTML =
+        `${gun} Gün ❤️ ${saat} Saat ❤️ ${dakika} Dakika ❤️ ${saniye} Saniye`;
 }
-if(nextBtn) { nextBtn.addEventListener('click', function() { currentSlide = (currentSlide + 1) % slides.length; updateGallery(); }); }
-if(prevBtn) { prevBtn.addEventListener('click', function() { currentSlide = (currentSlide - 1 + slides.length) % slides.length; updateGallery(); }); }
+
+function openGift() {
+    alert("🎁 Sürpriz! Seni çok seviyorum. İyi ki hayatımdasın Sevgilim. ❤️🌹");
+}
+
+function showFinal() {
+    alert("💖 Sonsuza kadar sen ve ben... Seni her zaman çok seveceğim. ❤️");
+}
 </script>
+
 </body>
 </html>
